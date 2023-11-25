@@ -1,4 +1,4 @@
-package com.example.ftapp11.navigation
+package com.example.ftapp11.ui.navigation
 
 interface NavigationDestination {
     /**

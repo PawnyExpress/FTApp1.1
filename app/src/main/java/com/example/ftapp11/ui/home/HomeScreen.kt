@@ -30,10 +30,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.ftapp11.data.IncExp
+import com.example.ftapp11.R
 
 object HomeDestination : NavigationDestination {
     override val route = "home"
-    override val titleRes = "ftapp11"
+    override val titleRes = R.string.app_name
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
