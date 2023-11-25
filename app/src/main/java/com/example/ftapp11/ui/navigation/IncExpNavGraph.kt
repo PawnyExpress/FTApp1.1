@@ -11,10 +11,10 @@ import com.example.ftapp11.ui.home.HomeDestination
 import com.example.ftapp11.ui.home.HomeScreen
 import com.example.ftapp11.ui.incexp.ItemDetailsDestination
 import com.example.ftapp11.ui.incexp.ItemDetailsScreen
-import com.example.ftapp11.ui.incexp.ItemEditDestination
-import com.example.ftapp11.ui.incexp.ItemEditScreen
-import com.example.ftapp11.ui.incexp.ItemEntryDestination
-import com.example.ftapp11.ui.incexp.ItemEntryScreen
+import com.example.ftapp11.ui.incexp.IncomeEditDestination
+import com.example.ftapp11.ui.incexp.IncomeEditScreen
+import com.example.ftapp11.ui.incexp.IncomeEntryDestination
+import com.example.ftapp11.ui.incexp.IncomeEntryScreen
 
 @Composable
 fun InventoryNavHost(
@@ -25,35 +25,35 @@ fun InventoryNavHost(
         navController = navController, startDestination = HomeDestination.route, modifier = modifier
     ) {
         composable(route = HomeDestination.route) {
-            HomeScreen(navigateToItemEntry = { navController.navigate(ItemEntryDestination.route) },
-                navigateToItemUpdate = {
-                    navController.navigate("${ItemDetailsDestination.route}/${it}")
+            HomeScreen(navigateToIncomeEntry = { navController.navigate(IncomeEntryDestination.route) },
+                navigateToIncomeUpdate = {
+                    navController.navigate("${IncomeDetailsDestination.route}/${it}")
                 })
         }
-        composable(route = ItemEntryDestination.route) {
-            ItemEntryScreen(navigateBack = { navController.popBackStack() },
+        composable(route = IncomeEntryDestination.route) {
+            IncomeEntryScreen(navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() })
         }
         composable(
-            route = ItemDetailsDestination.routeWithArgs,
-            arguments = listOf(navArgument(ItemDetailsDestination.itemIdArg) {
+            route = IncomeDetailsDestination.routeWithArgs,
+            arguments = listOf(navArgument(IncomeDetailsDestination.itemIdArg) {
                 type = NavType.IntType
             })
         ) {
-            ItemDetailsScreen(
+            IncomeDetailsScreen(
                 navigateToEditItem =
                 {
-                    navController.navigate("${ItemEditDestination.route}/$it")
+                    navController.navigate("${IncomeEditDestination.route}/$it")
                 },
                 navigateBack = { navController.navigateUp() })
         }
         composable(
-            route = ItemEditDestination.routeWithArgs,
-            arguments = listOf(navArgument(ItemEditDestination.itemIdArg) {
+            route = IncomeEditDestination.routeWithArgs,
+            arguments = listOf(navArgument(IncomeEditDestination.itemIdArg) {
                 type = NavType.IntType
             })
         ) {
-            ItemEditScreen(navigateBack = { navController.popBackStack() },
+            IncomeEditScreen(navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() })
         }
     }

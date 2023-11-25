@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
@@ -28,9 +29,13 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.ftapp11.FinancialTrackerApp
+import com.example.ftapp11.FinancialTrackerTopAppBar
 import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.R
+import com.example.ftapp11.ui.incexp.formatedAmount
 
 object HomeDestination : NavigationDestination {
     override val route = "home"
@@ -41,8 +46,10 @@ object HomeDestination : NavigationDestination {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
-    navigateToItemEntry: () -> Unit,
-    navigateToItemUpdate: (Int) -> Unit,
+    navigateToIncomeEntry: () -> Unit,
+    navigateToIncomeUpdate: (Int) -> Unit,
+    //navigateToExpenseEntry: () -> Unit,
+    //navigateToIxpenseUpdate: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -50,7 +57,7 @@ fun HomeScreen(
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            InventoryTopAppBar(
+            FinancialTrackerTopAppBar(
                 title = stringResource(HomeDestination.titleRes),
                 canNavigateBack = false,
                 scrollBehavior = scrollBehavior
@@ -58,20 +65,20 @@ fun HomeScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = navigateToItemEntry,
+                onClick = navigateToIncomeEntry,
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.item_entry_title)
+                    contentDescription = stringResource(R.string.income_entry_title)
                 )
             }
         },
     ) { innerPadding ->
         HomeBody(
             itemList = listOf(),
-            onItemClick = navigateToItemUpdate,
+            onItemClick = navigateToIncomeUpdate,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
@@ -94,7 +101,7 @@ private fun HomeBody(
                 style = MaterialTheme.typography.titleLarge
             )
         } else {
-            InventoryList(
+            FinancesList(
                 itemList = itemList,
                 onItemClick = { onItemClick(it.id) },
                 modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
@@ -104,22 +111,22 @@ private fun HomeBody(
 }
 
 @Composable
-private fun InventoryList(
+private fun FinancesList(
     itemList: List<IncExp>, onItemClick: (IncExp) -> Unit, modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
-        items(finances = itemList, key = { it.id }) { item ->
-            InventoryItem(item = item,
+        items(items = itemList, key = { it.id }) { incexp ->
+            InventoryItem(incexp = incexp,
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.padding_small))
-                    .clickable { onItemClick(item) })
+                    .clickable { onItemClick(incexp) })
         }
     }
 }
 
 @Composable
 private fun InventoryItem(
-    item: IncExp, modifier: Modifier = Modifier
+    incexp: IncExp, modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier,
@@ -133,15 +140,42 @@ private fun InventoryItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = item.name,
+                    text = incexp.name,
                     style = MaterialTheme.typography.titleLarge,
                 )
                 Spacer(Modifier.weight(1f))
                 Text(
-                    text = item.formatedamount(),
+                    text = incexp.formatedAmount(),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
         }
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun HomeBodyPreview() {
+    FTApp11Theme {
+        HomeBody(listOf(
+            IncExp(1, "Work", 1000.0, "10/01/23"), IncExp(2, "Freelancing", 200.0, "10/01/23"), IncExp(3, "Work Supplies", 300.0, "10/01/23")
+        ), onItemClick = {})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomeBodyEmptyListPreview() {
+    FTApp11Theme {
+        HomeBody(listOf(), onItemClick = {})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun InventoryItemPreview() {
+    FTApp11Theme {
+        InventoryItem(
+            Item(1, "Work", 1000.0, "10/01/23"),
+        )
+    }

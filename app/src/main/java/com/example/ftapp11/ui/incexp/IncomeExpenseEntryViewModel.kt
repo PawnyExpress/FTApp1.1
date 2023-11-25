@@ -2,7 +2,9 @@ package com.example.ftapp11.ui.incexp
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.data.IncExpRepository
+import java.text.NumberFormat
 import java.util.Date
 
 class IncomeExpenseEntryViewModel (private val incexpRepository: IncExpRepository) : ViewModel() {
@@ -28,13 +30,13 @@ class IncomeExpenseEntryViewModel (private val incexpRepository: IncExpRepositor
     }
     suspend fun saveIncExp() {
         if (validateInput()) {
-            IncExpRepository.insertIncExp(incomeUiState.incomeDetails.toItem())
+            IncExpRepository.insertIncExp(incomeUiState.incomeDetails.toIncome())
         }
     }
 
     suspend fun saveIncExp() {
         if (validateInput()) {
-            IncExpRepository.insertIncExp(expenseUiState.incomeDetails.toItem())
+            IncExpRepository.insertIncExp(expenseUiState.incomeDetails.toExpense())
         }
     }
 
@@ -71,4 +73,46 @@ data class ExpenseDetails(
     val name: String = "",
     val amount: String = "",
     val date: String = "",
+)
+
+fun IncomeDetails.toIncome(): IncExp = IncExp(
+    id = id,
+    name = name,
+    amount = amount.toDoubleOrNull() ?: 0.0,
+    date = date
+)
+
+fun ExpenseDetails.toExpense(): IncExp = IncExp(
+    id = id,
+    name = name,
+    amount = amount.toDoubleOrNull() ?: 0.0,
+    date = date
+)
+
+fun IncExp.formatedAmount(): String {
+    return NumberFormat.getCurrencyInstance().format(amount)
+}
+
+fun IncExp.toIncomeUiState(isEntryValid: Boolean = false): IncomeUiState = IncomeUiState(
+    incomeDetails = this.toIncomeDetails(),
+    isEntryValid = isEntryValid
+)
+
+fun IncExp.toExpenseUiState(isEntryValid: Boolean = false): ExpenseUiState = ExpenseUiState(
+    expenseDetails = this.toExpenseDetails(),
+    isEntryValid = isEntryValid
+)
+
+fun IncExp.toIncomeDetails(): IncomeDetails = IncomeDetails(
+    id = id,
+    name = name,
+    amount = amount.toString(),
+    date = date.toString()
+)
+
+fun IncExp.toExpenseDetails(): ExpenseDetails = ExpenseDetails(
+    id = id,
+    name = name,
+    amount = amount.toString(),
+    date = date.toString()
 )
