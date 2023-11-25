@@ -1,2 +1,100 @@
 package com.example.ftapp11.ui.incexp
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ftapp11.FinancialTrackerTopAppBar
+import com.example.ftapp11.R
+import com.example.ftapp11.ui.AppViewModelProvider
+import com.example.ftapp11.ui.navigation.NavigationDestination
+import com.example.ftapp11.ui.theme.FinancialTrackerTheme
+import kotlinx.coroutines.launch
+import java.util.Currency
+import java.util.Locale
+
+object IncomeEntryScreen : NavigationDestination {
+    override val route: "income_entry"
+    override val titleRes = R.string.income_entry_title
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun IncomeEntryScreen(
+    navigateBack: () -> Unit,
+    onNavigateUp: () -> Unit,
+    canNavigateBack: Boolean = true,
+    viewModel: IncomeExpenseEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+) {
+    val coroutineScope = rememberCoroutineScope()
+    Scaffold(
+        topBar = {
+            FinancialTrackerTopAppBar(
+                title = stringResource(IncomeEntryDestination.titleRes),
+                canNavigateBack = canNavigateBack,
+                navigateUp = onNavigateUp
+            )
+        }
+    ) { innerPadding ->
+        IncomeEntryBody(
+            incomeUiState = viewModel.incomeUiState,
+            onIncomeValueChange = viewModel::updateIncomeUiState,
+            onSaveClick = {
+                coroutineScope.launch {
+                    viewModel.saveIncExp()
+                    navigateBack
+                }
+            },
+            modifier = Modifier
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+                .fillMaxWidth()
+        )
+
+    }
+}
+@Composable
+fun IncomeEntryBody(
+    incomeUiState: IncomeUiState,
+    onIncomeValueChange: (IncomeDetails) -> Unit,
+    onSaveClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column (
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_large)),
+        modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+    ) {
+        IncomeInputForm(
+            incomeDetails = incomeUiState.incomeDetails,
+            onValueChange =  onIncomeValueChange,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Button(
+            onClick =onSaveClick,
+            enabled = incomeUiState.isEntryValid,
+            shape = MaterialTheme.shapes.small,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(stringResource(R.string.save_action))
+        }
+    }
+}
+

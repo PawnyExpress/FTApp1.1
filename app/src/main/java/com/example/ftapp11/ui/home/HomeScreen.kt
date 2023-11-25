@@ -31,11 +31,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.ftapp11.FinancialTrackerApp
 import com.example.ftapp11.FinancialTrackerTopAppBar
 import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.R
 import com.example.ftapp11.ui.incexp.formatedAmount
+import com.example.ftapp11.ui.navigation.NavigationDestination
+import com.example.ftapp11.ui.theme.FinancialTrackerTheme
 
 object HomeDestination : NavigationDestination {
     override val route = "home"
@@ -156,7 +157,7 @@ private fun InventoryItem(
 @Preview(showBackground = true)
 @Composable
 fun HomeBodyPreview() {
-    FTApp11Theme {
+    FinancialTrackerTheme {
         HomeBody(listOf(
             IncExp(1, "Work", 1000.0, "10/01/23"), IncExp(2, "Freelancing", 200.0, "10/01/23"), IncExp(3, "Work Supplies", 300.0, "10/01/23")
         ), onItemClick = {})
@@ -166,7 +167,7 @@ fun HomeBodyPreview() {
 @Preview(showBackground = true)
 @Composable
 fun HomeBodyEmptyListPreview() {
-    FTApp11Theme {
+    FinancialTrackerTheme {
         HomeBody(listOf(), onItemClick = {})
     }
 }
@@ -174,8 +175,9 @@ fun HomeBodyEmptyListPreview() {
 @Preview(showBackground = true)
 @Composable
 fun InventoryItemPreview() {
-    FTApp11Theme {
+    FinancialTrackerTheme {
         InventoryItem(
-            Item(1, "Work", 1000.0, "10/01/23"),
+            IncExp(1, "Work", 1000.0, "10/01/23"),
         )
     }
+}

@@ -4,4 +4,5 @@
     <string name="income_entry_title">Add Income</string>
     <string name="expense_entry_title">Add Expense</string>
     <string name="back_button">Back</string>
+    <string name="save_action">Save</string>
 </resources>

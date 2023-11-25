@@ -6,25 +6,39 @@ interface IncExpRepository {
     /**
      * Retrieve all the items from the the given data source.
      */
-    fun getAllItemsStream(): Flow<List<IncExp>>
+    fun getAllIncExpStream(): Flow<List<IncExp>>
 
     /**
      * Retrieve an item from the given data source that matches with the [id].
      */
-    fun getItemStream(id: Int): Flow<IncExp?>
+    fun getIncExpStream(id: Int): Flow<IncExp?>
 
     /**
      * Insert item in the data source
      */
-    suspend fun insertItem(item: IncExp)
+    suspend fun insertIncome(income: IncExp)
 
     /**
      * Delete item from the data source
      */
-    suspend fun deleteItem(item: IncExp)
+    suspend fun deleteIncome(income: IncExp)
 
     /**
      * Update item in the data source
      */
-    suspend fun updateItem(item: IncExp)
+    suspend fun updateIncome(income: IncExp)
+    /**
+     * Insert expense in the data source
+     */
+    suspend fun insertExpense(expense: IncExp)
+
+    /**
+     * Delete expense from the data source
+     */
+    suspend fun deleteExpense(expense: IncExp)
+
+    /**
+     * Update expense in the data source
+     */
+    suspend fun updateExpense(expense: IncExp)
 }

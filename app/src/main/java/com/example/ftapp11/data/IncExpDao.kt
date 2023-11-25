@@ -19,9 +19,9 @@ interface IncExpDao {
     @Delete
     suspend fun delete(incExp: IncExp)
 
-    @Query("SELECT * from incExp WHERE id = :id")
+    @Query("SELECT * from finances WHERE id = :id")
     fun getItem(id: Int): Flow<IncExp>
 
-    @Query("SELECT * from incExp ORDER BY name ASC")
+    @Query("SELECT * from finances ORDER BY name ASC")
     fun getAllItems(): Flow<List<IncExp>>
 }
