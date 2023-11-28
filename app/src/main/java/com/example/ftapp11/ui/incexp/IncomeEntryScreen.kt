@@ -98,3 +98,14 @@ fun IncomeEntryBody(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun IncomeInputForm(
+    incomeDetails: IncomeDetails,
+    modifier: Modifier = Modifier,
+    onValueChange:(IncomeDetails) -> Unit = {},
+    enbled: Boolean = true
+) {
+
+}
+

@@ -7,6 +7,9 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.ftapp11.FinancialTrackerApplication
+import com.example.ftapp11.ui.home.HomeViewModel
+import com.example.ftapp11.ui.incexp.IncomeEditViewModel
+import com.example.ftapp11.ui.incexp.IncomeExpenseEntryViewModel
 
 object AppViewModelProvider {
     val Factory = viewModelFactory {
@@ -18,7 +21,7 @@ object AppViewModelProvider {
         }
         // Initializer for ItemEntryViewModel
         initializer {
-            IncomeEntryViewModel(FinancialTrackerApplication().container.itemsRepository)
+            IncomeExpenseEntryViewModel(FinancialTrackerApplication().container.itemsRepository)
         }
 
         // Initializer for ItemDetailsViewModel
@@ -37,7 +40,7 @@ object AppViewModelProvider {
 
 /**
  * Extension function to queries for [Application] object and returns an instance of
- * [InventoryApplication].
+ * [FinancialTrackerApplication].
  */
 fun CreationExtras.financialtrackerApplication(): FinancialTrackerApplication =
     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as FinancialTrackerApplication)

@@ -34,11 +34,11 @@ class IncomeExpenseEntryViewModel (private val incexpRepository: IncExpRepositor
         }
     }
 
-    suspend fun saveIncExp() {
-        if (validateInput()) {
-            IncExpRepository.insertIncExp(expenseUiState.incomeDetails.toExpense())
-        }
-    }
+//    suspend fun saveIncExp() {
+//        if (validateInput()) {
+//            IncExpRepository.insertIncExp(expenseUiState.incomeDetails.toExpense())
+//        }
+//    }
 
     private fun validateInput(uiState: IncomeDetails = incomeUiState.incomeDetails): Boolean {
         return with(uiState) {
