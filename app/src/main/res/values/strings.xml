@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Financial Tracker</string>
-    <string name="no_item_description">It seems that you O\nhave no income or expenses \nin your history.\nTap + to add.</string>
+    <string name="no_item_description">It seems that you\nhave no income or expenses \nin your history.\nTap + to add.</string>
     <string name="income_entry_title">Add Income</string>
     <string name="expense_entry_title">Add Expense</string>
     <string name="back_button">Back</string>

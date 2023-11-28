@@ -13,9 +13,9 @@ class OfflineFinancesRepository(private val incExpDao: IncExpDao) : IncExpReposi
 
     override suspend fun updateIncome(income: IncExp) = incExpDao.update(income)
 
-    override suspend fun insertExpense(expense: IncExp) = incExpDao.insert(expense)
-
-    override suspend fun deleteExpense(expense: IncExp) = incExpDao.delete(expense)
-
-    override suspend fun updateExpense(expense: IncExp) = incExpDao.update(expense)
+//    override suspend fun insertExpense(expense: IncExp) = incExpDao.insert(expense)
+//
+//    override suspend fun deleteExpense(expense: IncExp) = incExpDao.delete(expense)
+//
+//    override suspend fun updateExpense(expense: IncExp) = incExpDao.update(expense)
 }

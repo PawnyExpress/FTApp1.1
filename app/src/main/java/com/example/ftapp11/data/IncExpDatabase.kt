@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [IncExp::class], version = 1, exportSchema = false)
 abstract class IncExpDatabase : RoomDatabase(){
 
-    abstract fun incexpDao(): IncExpDao
+    abstract fun incExpDao(): IncExpDao
 
     companion object {
         @Volatile

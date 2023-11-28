@@ -30,15 +30,15 @@ interface IncExpRepository {
     /**
      * Insert expense in the data source
      */
-    suspend fun insertExpense(expense: IncExp)
-
-    /**
-     * Delete expense from the data source
-     */
-    suspend fun deleteExpense(expense: IncExp)
-
-    /**
-     * Update expense in the data source
-     */
-    suspend fun updateExpense(expense: IncExp)
+//    suspend fun insertExpense(expense: IncExp)
+//
+//    /**
+//     * Delete expense from the data source
+//     */
+//    suspend fun deleteExpense(expense: IncExp)
+//
+//    /**
+//     * Update expense in the data source
+//     */
+//    suspend fun updateExpense(expense: IncExp)
 }

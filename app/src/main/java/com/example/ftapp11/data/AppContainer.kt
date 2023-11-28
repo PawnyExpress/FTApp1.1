@@ -8,7 +8,7 @@ interface AppContainer {
 
 class AppDataContainer(private val context: Context) : AppContainer {
     override val incExpRepository: IncExpRepository by lazy {
-        OfflineFinancesRepository(IncExpDatabase.getDatabase(context).incexpDao())
+        OfflineFinancesRepository(IncExpDatabase.getDatabase(context).incExpDao())
     }
 
 }
