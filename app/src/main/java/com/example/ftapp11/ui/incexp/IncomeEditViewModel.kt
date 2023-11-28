@@ -1,8 +1,11 @@
 package com.example.ftapp11.ui.incexp
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+//import com.example.ftapp11.IncExpReposotory
 
 class IncomeEditViewModel (
     savedStateHandle: SavedStateHandle,
@@ -13,9 +16,9 @@ class IncomeEditViewModel (
     var incomeUiState by mutableStateOf(IncomeUiState())
     private set
 
-    private val incomeId: checkNotNull(savedStateHandle[IncomeEditDestination.incomeIdArg])
+    private val incomeId: Int = checkNotNull(savedStateHandle[IncomeEditDestination.incomeIdArg])
 
-            private fun validateInput(uiState: IncomeUiState = incomeUiState.incomeDetails) : Boolean {
+            private fun validateInput(uiState: IncomeDetails = incomeUiState.incomeDetails) : Boolean {
                 return with(uiState) {
                     name.isNotBlank() && amount.isNotBlank() && date.isNotBlank()
                 }

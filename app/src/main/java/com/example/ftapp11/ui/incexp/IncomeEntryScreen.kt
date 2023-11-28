@@ -32,7 +32,7 @@ import java.util.Currency
 import java.util.Locale
 
 object IncomeEntryDestination : NavigationDestination {
-    override val route: "income_entry"
+    override val route = "income_entry"
     override val titleRes = R.string.income_entry_title
 }
 

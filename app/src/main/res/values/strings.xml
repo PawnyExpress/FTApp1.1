@@ -12,4 +12,11 @@
     <string name="income_detail_title">Income Details</string>
     <string name="edit_income_title">Edit Income</string>
     <string name="delete">Delete</string>
+    <string name="delete_question">Are you sure you want to delete?</string>
+    <string name="attention">Attention</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="income">Income</string>
+    <string name="amount">Amount</string>
+    <string name="date">Date</string>
 </resources>

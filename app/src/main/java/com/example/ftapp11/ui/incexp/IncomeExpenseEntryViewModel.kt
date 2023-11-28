@@ -1,13 +1,15 @@
 package com.example.ftapp11.ui.incexp
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.data.IncExpRepository
 import java.text.NumberFormat
 import java.util.Date
 
-class IncomeExpenseEntryViewModel (private val incexpRepository: IncExpRepository) : ViewModel() {
+class IncomeExpenseEntryViewModel (private val incExpRepository: IncExpRepository) : ViewModel() {
     /**
      * Holds current income ui state
      */
@@ -21,7 +23,7 @@ class IncomeExpenseEntryViewModel (private val incexpRepository: IncExpRepositor
 
     fun updateIncomeUiState(incomeDetails : IncomeDetails) {
         incomeUiState =
-            IncomeUIState(incomeDetails = incomeDetails, isEntryValid = validateInput(incomeDetails))
+            IncomeUiState(incomeDetails = incomeDetails, isEntryValid = validateInput(incomeDetails))
     }
 
 //    fun updateExpenseUiState(expenseDetails : ExpenseDetails) {
@@ -30,7 +32,7 @@ class IncomeExpenseEntryViewModel (private val incexpRepository: IncExpRepositor
 //    }
     suspend fun saveIncExp() {
         if (validateInput()) {
-            IncExpRepository.insertIncExp(incomeUiState.incomeDetails.toIncome())
+            incExpRepository.insertIncome(incomeUiState.incomeDetails.toIncome())
         }
     }
 

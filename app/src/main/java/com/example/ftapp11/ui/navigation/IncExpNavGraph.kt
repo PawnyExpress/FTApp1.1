@@ -10,8 +10,7 @@ import androidx.navigation.navArgument
 import com.example.ftapp11.ui.home.HomeDestination
 import com.example.ftapp11.ui.home.HomeScreen
 import com.example.ftapp11.ui.incexp.IncomeDetailsDestination
-import com.example.ftapp11.ui.incexp.ItemDetailsDestination
-import com.example.ftapp11.ui.incexp.ItemDetailsScreen
+import com.example.ftapp11.ui.incexp.IncomeDetailsScreen
 import com.example.ftapp11.ui.incexp.IncomeEditDestination
 import com.example.ftapp11.ui.incexp.IncomeEditScreen
 import com.example.ftapp11.ui.incexp.IncomeEntryDestination
@@ -42,7 +41,7 @@ fun InventoryNavHost(
             })
         ) {
             IncomeDetailsScreen(
-                navigateToEditItem =
+                navigateToEditIncome =
                 {
                     navController.navigate("${IncomeEditDestination.route}/$it")
                 },
@@ -50,7 +49,7 @@ fun InventoryNavHost(
         }
         composable(
             route = IncomeEditDestination.routeWithArgs,
-            arguments = listOf(navArgument(IncomeEditDestination.itemIdArg) {
+            arguments = listOf(navArgument(IncomeEditDestination.incomeIdArg) {
                 type = NavType.IntType
             })
         ) {
