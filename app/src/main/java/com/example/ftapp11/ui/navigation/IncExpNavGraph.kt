@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.ftapp11.ui.home.HomeDestination
 import com.example.ftapp11.ui.home.HomeScreen
+import com.example.ftapp11.ui.incexp.IncomeDetailsDestination
 import com.example.ftapp11.ui.incexp.ItemDetailsDestination
 import com.example.ftapp11.ui.incexp.ItemDetailsScreen
 import com.example.ftapp11.ui.incexp.IncomeEditDestination
@@ -36,7 +37,7 @@ fun InventoryNavHost(
         }
         composable(
             route = IncomeDetailsDestination.routeWithArgs,
-            arguments = listOf(navArgument(IncomeDetailsDestination.itemIdArg) {
+            arguments = listOf(navArgument(IncomeDetailsDestination.incomeIdArg) {
                 type = NavType.IntType
             })
         ) {

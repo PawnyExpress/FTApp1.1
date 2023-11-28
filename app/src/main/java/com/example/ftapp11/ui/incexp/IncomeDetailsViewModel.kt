@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import com.example.ftapp11.data.IncExpRepository
 
 class IncomeDetailsViewModel (
-    savedState: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val incomeId : Int = checkNotNull(savedStateHandle[IncomeDetailsDestination.incomeIdArg])
+    private val incomeId : Int = checkNotNull(savedStateHandle[])
 
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L

@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 import java.util.Currency
 import java.util.Locale
 
-object IncomeEntryScreen : NavigationDestination {
+object IncomeEntryDestination : NavigationDestination {
     override val route: "income_entry"
     override val titleRes = R.string.income_entry_title
 }
@@ -106,6 +106,73 @@ fun IncomeInputForm(
     onValueChange:(IncomeDetails) -> Unit = {},
     enbled: Boolean = true
 ) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+    ) {
+        OutlinedTextField(
+        value = incomeDetails.name,
+        onValueChange = {onValueChange(incomeDetails.copy(name = it))},
+        label = { Text(stringResource(R.string.income_name_req)) },
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+        ),
+        modifier = Modifier.fillMaxWidth(),
+        enabled = enbled,
+        singleLine = true
+        )
+        OutlinedTextField(
+            value = incomeDetails.amount,
+            onValueChange = { onValueChange(incomeDetails.copy(amount = it)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            label = { Text(stringResource(R.string.income_amount_req))},
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            leadingIcon = { Text(Currency.getInstance(Locale.getDefault()).symbol)},
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enbled,
+            singleLine = true
+        )
+        OutlinedTextField(
+            value = incomeDetails.date,
+            onValueChange = { onValueChange(incomeDetails.copy(date = it)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            label = { Text(stringResource(R.string.date_req)) },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor =   MaterialTheme.colorScheme.secondaryContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enbled,
+            singleLine = true
+        )
+        if (enbled) {
+            Text(
+                text = stringResource(R.string.required_fields),
+                modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium))
+            )
+        }
+    }
+}
 
+@Preview(showBackground = true)
+@Composable
+private fun IncomeEntryScreenPreview() {
+    FinancialTrackerTheme {
+        IncomeEntryBody(
+            incomeUiState = IncomeUiState(
+                IncomeDetails(
+                    name = "Income Name", amount = "1500.00", date = "11/27/23"
+                )
+            ),
+            onIncomeValueChange = {},
+            onSaveClick = {})
+    }
 }
 

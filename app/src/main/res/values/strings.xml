@@ -5,4 +5,11 @@
     <string name="expense_entry_title">Add Expense</string>
     <string name="back_button">Back</string>
     <string name="save_action">Save</string>
+    <string name="income_name_req">Income Name*</string>
+    <string name="income_amount_req">Income Amount*</string>
+    <string name="date_req">Date Income was Received*</string>
+    <string name="required_fields">*required fields</string>
+    <string name="income_detail_title">Income Details</string>
+    <string name="edit_income_title">Edit Income</string>
+    <string name="delete">Delete</string>
 </resources>
