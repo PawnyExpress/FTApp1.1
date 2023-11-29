@@ -4,12 +4,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.ftapp11.data.DatabaseHandler
 import com.example.ftapp11.data.IncExp
-import com.example.ftapp11.data.IncExpRepository
 import java.text.NumberFormat
-import java.util.Date
 
-class IncomeExpenseEntryViewModel (private val incExpRepository: IncExpRepository) : ViewModel() {
+class IncomeExpenseEntryViewModel () : ViewModel() {
+    private var db : DatabaseHandler = DatabaseHandler(null)
+
+    /**
+     * Required to pass context for db access
+     */
+    fun sendContext(databaseHandler: DatabaseHandler){
+        db = databaseHandler;
+    }
+
     /**
      * Holds current income ui state
      */
@@ -32,8 +40,13 @@ class IncomeExpenseEntryViewModel (private val incExpRepository: IncExpRepositor
 //    }
     suspend fun saveIncExp() {
         if (validateInput()) {
-            incExpRepository.insertIncome(incomeUiState.incomeDetails.toIncome())
+            val field = incomeUiState.incomeDetails.toIncome()
+            //incExpRepository.insertIncome(incomeUiState.incomeDetails.toIncome())
+
+            db.addNewIncome(field.name, field.amount, field.date)
+            println("Validated " + field.name + " " + field.amount + " " + field.date)
         }
+        //println("Test")
     }
 
 //    suspend fun saveIncExp() {

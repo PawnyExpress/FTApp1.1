@@ -32,8 +32,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ftapp11.FinancialTrackerTopAppBar
-import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.R
+import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.ui.incexp.formatedAmount
 import com.example.ftapp11.ui.navigation.NavigationDestination
 import com.example.ftapp11.ui.theme.FinancialTrackerTheme

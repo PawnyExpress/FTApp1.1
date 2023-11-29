@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ftapp11.FinancialTrackerTopAppBar
 import com.example.ftapp11.R
+import com.example.ftapp11.data.DatabaseHandler
 import com.example.ftapp11.ui.AppViewModelProvider
 import com.example.ftapp11.ui.navigation.NavigationDestination
 import com.example.ftapp11.ui.theme.FinancialTrackerTheme
@@ -42,8 +43,10 @@ fun IncomeEntryScreen(
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
+    databaseHandler : DatabaseHandler,
     viewModel: IncomeExpenseEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    viewModel.sendContext(databaseHandler)
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {

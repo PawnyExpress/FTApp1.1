@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.ftapp11.data.DatabaseHandler
 import com.example.ftapp11.ui.navigation.InventoryNavHost
 
 /**
@@ -21,8 +22,8 @@ import com.example.ftapp11.ui.navigation.InventoryNavHost
  */
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun FinancialTrackerApp(navController: NavHostController = rememberNavController()) {
-    InventoryNavHost(navController = navController)
+fun FinancialTrackerApp(databaseHandler : DatabaseHandler, navController: NavHostController = rememberNavController()) {
+    InventoryNavHost(navController = navController, databaseHandler)
 }
 /**
  * App bar to display title and conditionally display the back navigation.

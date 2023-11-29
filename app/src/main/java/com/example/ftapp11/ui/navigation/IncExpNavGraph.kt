@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.ftapp11.data.DatabaseHandler
 import com.example.ftapp11.ui.home.HomeDestination
 import com.example.ftapp11.ui.home.HomeScreen
 import com.example.ftapp11.ui.incexp.IncomeDetailsDestination
@@ -19,10 +20,12 @@ import com.example.ftapp11.ui.incexp.IncomeEntryScreen
 @Composable
 fun InventoryNavHost(
     navController: NavHostController,
+    databaseHandler : DatabaseHandler,
     modifier: Modifier = Modifier,
+
 ) {
     NavHost(
-        navController = navController, startDestination = HomeDestination.route, modifier = modifier
+        navController = navController, startDestination = HomeDestination.route, modifier = modifier,
     ) {
         composable(route = HomeDestination.route) {
             HomeScreen(navigateToIncomeEntry = { navController.navigate(IncomeEntryDestination.route) },
@@ -32,7 +35,7 @@ fun InventoryNavHost(
         }
         composable(route = IncomeEntryDestination.route) {
             IncomeEntryScreen(navigateBack = { navController.popBackStack() },
-                onNavigateUp = { navController.navigateUp() })
+                onNavigateUp = { navController.navigateUp()}, true , databaseHandler)
         }
         composable(
             route = IncomeDetailsDestination.routeWithArgs,
