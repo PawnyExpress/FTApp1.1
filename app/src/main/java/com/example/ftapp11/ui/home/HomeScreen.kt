@@ -77,7 +77,8 @@ fun HomeScreen(
 
     ) { innerPadding ->
         HomeBody(
-            incomeList = listOf(),
+            incExpList = listOf(),
+
             onItemClick = navigateToIncomeUpdate,
             modifier = Modifier
                 .padding(innerPadding)
@@ -90,13 +91,13 @@ fun HomeScreen(
 
 @Composable
 private fun HomeBody(
-    incomeList: List<IncExp>, onItemClick: (Int) -> Unit, modifier: Modifier = Modifier
+    incExpList: List<IncExp>, onItemClick: (Int) -> Unit, modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        if (incomeList.isEmpty()) {
+        if (incExpList.isEmpty()) {
             Text(
                 text = stringResource(R.string.no_item_description),
                 textAlign = TextAlign.Center,
@@ -104,7 +105,7 @@ private fun HomeBody(
             )
         } else {
             FinancesList(
-                incomeList = incomeList,
+                incExpList = incExpList,
                 onItemClick = { onItemClick(it.id) },
                 modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
             )
@@ -114,10 +115,10 @@ private fun HomeBody(
 
 @Composable
 private fun FinancesList(
-    incomeList: List<IncExp>, onItemClick: (IncExp) -> Unit, modifier: Modifier = Modifier
+    incExpList: List<IncExp>, onItemClick: (IncExp) -> Unit, modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
-        items(items = incomeList, key = { it.id }) { incExp ->
+        items(items = incExpList, key = { it.id }) { incExp ->
             InventoryItem(incExp = incExp,
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.padding_small))
