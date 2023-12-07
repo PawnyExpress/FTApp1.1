@@ -31,7 +31,7 @@ fun IncExpNavHost(
             HomeScreen(navigateToIncomeEntry = { navController.navigate(IncomeEntryDestination.route) },
                 navigateToIncomeUpdate = {
                     navController.navigate("${IncomeDetailsDestination.route}/${it}")
-                })
+                }, modifier , databaseHandler)
         }
         composable(route = IncomeEntryDestination.route) {
             IncomeEntryScreen(navigateBack = { navController.popBackStack() },

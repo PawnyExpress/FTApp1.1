@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
+import com.example.ftapp11.data.IncExp;
 import android.widget.Toast;
 import java.util.Arrays;
 
@@ -99,13 +99,15 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param desc String description of expense entry.
      * @param amount Integer amount of expense entry.
      */
-    public void addNewExpense(String desc, Double amount){
+    public void addNewExpense(String desc, Double amount, String date){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        TimeZone tz = TimeZone.getDefault();
-        Calendar calendar = new GregorianCalendar(tz);
-        String date = calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.DATE)
-                + "/" + calendar.get(Calendar.YEAR);
+        if (date == "") {
+            TimeZone tz = TimeZone.getDefault();
+            Calendar calendar = new GregorianCalendar(tz);
+            date = calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.DATE)
+                    + "/" + calendar.get(Calendar.YEAR);
+        }
 
         values.put(DESC_COL, desc);
         values.put(DATE_COL, date);
@@ -128,8 +130,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * Used to grab expense table data.
      * @return 2-Dimensional string array of valid rows.
      */
-    public String getExpenses(){
+    public List<IncExp> getExpenses(){
         int[] fromDate, toDate;
+        List<IncExp> data = new ArrayList<IncExp>();
         String[] dates = getIntervalDates();
         String fromDateString = dates[0];
         String toDateString = dates[1];
@@ -138,7 +141,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         toDate = convertDates(toDateString);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT FROM_DATE_COL FROM " + TABLE_NAME_EXPENSES + ";", null );
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_EXPENSES + ";", null );
 
 
         String[][] expenseData = new String[cursor.getCount()][columnCount];
@@ -162,17 +165,19 @@ public class DatabaseHandler extends SQLiteOpenHelper{
             }
         }
         expenseData = cleanEmptyCells(expenseData);
-        System.out.println(stringifyData(expenseData, expenseData.length));
+        System.out.println("Stringified Data " + stringifyData(expenseData, expenseData.length));
         db.close();
-        return "Temporary Return";
+
+        return data;
     }
 
     /**
      * Used to grab income table data.
      * @return 2-Dimensional string array of valid rows.
      */
-    public String getIncome(){
+    public List<IncExp> getIncome(){
         int[] fromDate, toDate;
+        List<IncExp> data = new ArrayList<IncExp>();
         String[] dates = getIntervalDates();
         String fromDateString = dates[0];
         String toDateString = dates[1];
@@ -181,7 +186,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         toDate = convertDates(toDateString);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT FROM_DATE_COL FROM " + TABLE_NAME_INCOME + ";", null );
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_INCOME + ";", null );
 
 
         String[][] incomeData = new String[cursor.getCount()][columnCount];
@@ -204,10 +209,30 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 } while (cursor.moveToNext());
             }
         }
+
         incomeData = cleanEmptyCells(incomeData);
-        System.out.println(stringifyData(incomeData, incomeData.length));
+        System.out.println("Stringified Income: " + stringifyData(incomeData, incomeData.length));
+
+        for(int i=0;i<incomeData.length;i++)
+                data.add(new IncExp(i, incomeData[i][0], Double.valueOf(incomeData[i][2]), incomeData[i][1]));
+
+        System.out.println(data);
+
+
         db.close();
-        return "Temporary Return";
+
+
+        //data.add(new IncExp(name, amount, date));
+
+        return data;
+    }
+
+    public <T> List<T> convertToList(T[][] twoDArray) {
+        List<T> list = new ArrayList<T>();
+        for (T[] array : twoDArray) {
+            list.addAll(Arrays.asList(array));
+        }
+        return list;
     }
 
     /**
@@ -248,7 +273,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     private String[][] cleanEmptyCells(String[][] toClean){
         String[][] cleanedArray;
         int count = 0;
-        List<Integer> cleanCellList =new ArrayList<Integer>();
+        List<Integer> cleanCellList = new ArrayList<Integer>();
 
         for(int i = 0; i < toClean.length; i++){
             if(toClean[i][0] != null){

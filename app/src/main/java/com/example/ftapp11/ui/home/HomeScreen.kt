@@ -32,8 +32,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ftapp11.FinancialTrackerTopAppBar
-import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.R
+import com.example.ftapp11.data.DatabaseHandler
+import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.ui.incexp.formattedAmount
 import com.example.ftapp11.ui.navigation.NavigationDestination
 import com.example.ftapp11.ui.theme.FinancialTrackerTheme
@@ -43,13 +44,15 @@ object HomeDestination : NavigationDestination {
     override val titleRes = R.string.app_name
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
     navigateToIncomeEntry: () -> Unit,
     navigateToIncomeUpdate: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    databaseHandler: DatabaseHandler
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -82,21 +85,24 @@ fun HomeScreen(
             onItemClick = navigateToIncomeUpdate,
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize()
+                .fillMaxSize(),
+            databaseHandler
         )
     }
 
 
 }
-
 @Composable
 private fun HomeBody(
-    incExpList: List<IncExp>, onItemClick: (Int) -> Unit, modifier: Modifier = Modifier
+    incExpList: List<IncExp>, onItemClick: (Int) -> Unit, modifier: Modifier = Modifier, databaseHandler : DatabaseHandler
 ) {
+    var incExpList = databaseHandler.getIncome()
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
+
         if (incExpList.isEmpty()) {
             Text(
                 text = stringResource(R.string.no_item_description),
@@ -117,6 +123,7 @@ private fun HomeBody(
 private fun FinancesList(
     incExpList: List<IncExp>, onItemClick: (IncExp) -> Unit, modifier: Modifier = Modifier
 ) {
+
     LazyColumn(modifier = modifier) {
         items(items = incExpList, key = { it.id }) { incExp ->
             InventoryItem(incExp = incExp,
@@ -156,23 +163,23 @@ private fun InventoryItem(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun HomeBodyPreview() {
-    FinancialTrackerTheme {
-        HomeBody(listOf(
-            IncExp(1, "Work", 1000.0, "10/01/23"), IncExp(2, "Freelancing", 200.0, "10/01/23"), IncExp(3, "Work Supplies", 300.0, "10/01/23")
-        ), onItemClick = {})
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomeBodyEmptyListPreview() {
-    FinancialTrackerTheme {
-        HomeBody(listOf(), onItemClick = {})
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun HomeBodyPreview() {
+//    FinancialTrackerTheme {
+//        HomeBody(listOf(
+//            IncExp(1, "Work", 1000.0, "10/01/23"), IncExp(2, "Freelancing", 200.0, "10/01/23"), IncExp(3, "Work Supplies", 300.0, "10/01/23")
+//        ), onItemClick = {})
+//    }
+//}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun HomeBodyEmptyListPreview() {
+//    FinancialTrackerTheme {
+//        HomeBody(listOf(), onItemClick = {})
+//    }
+//}
 
 @Preview(showBackground = true)
 @Composable
