@@ -6,11 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.ftapp11.data.DatabaseHandler
 import com.example.ftapp11.data.IncExp
-import com.example.ftapp11.data.IncExpRepository
 import java.text.NumberFormat
-import java.util.Date
 
-class IncomeExpenseEntryViewModel (private val incExpRepository: IncExpRepository) : ViewModel() {
+class IncomeExpenseEntryViewModel () : ViewModel() {
     private var db : DatabaseHandler = DatabaseHandler(null)
     /**
      * Required to pass context for db access
@@ -41,7 +39,7 @@ class IncomeExpenseEntryViewModel (private val incExpRepository: IncExpRepositor
 //    }
     suspend fun saveIncExp() {
         if (validateInput()) {
-            val field = incomeUiState.incomeDetails.toIncome()
+            val field = incomeUiState.incomeDetails.toIncExp()
             //incExpRepository.insertIncome(incomeUiState.incomeDetails.toIncExp())
 
             db.addNewIncome(field.name, field.amount, field.date)

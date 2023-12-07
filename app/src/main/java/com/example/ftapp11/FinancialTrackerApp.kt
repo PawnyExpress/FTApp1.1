@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.ftapp11.ui.navigation.IncExpNavHost
 import com.example.ftapp11.data.DatabaseHandler
+import com.example.ftapp11.ui.navigation.IncExpNavHost
 
 
 /**

@@ -45,7 +45,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
             + FROM_DATE_COL + " TEXT, "
             + TO_DATE_COL + " TEXT, "
             + NOTIFICATIONS_TOGGLE + " BOOLEAN DEFAULT 'true',"
-            + INTERVAL_TOGGLE + " BOOLEAN DEFAULT 'false')";
+            + INTERVAL_TOGGLE + " INTEGER DEFAULT 0)";
 
     public DatabaseHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -61,7 +61,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         values.put(FROM_DATE_COL, "11/05/2023");
         values.put(TO_DATE_COL, "11/15/2023");
         values.put(NOTIFICATIONS_TOGGLE, true);
-        values.put(INTERVAL_TOGGLE, false);
+        values.put(INTERVAL_TOGGLE, 0);
 
         db.execSQL(incomeTableCreate);
         db.execSQL(expensesTableCreate);
@@ -113,6 +113,14 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
         db.insert(TABLE_NAME_EXPENSES, null, values);
         db.close();
+
+    }
+
+
+    public void changeInterval(Integer interval){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.execSQL("UPDATE " + TABLE_NAME_SETTINGS + " SET " + INTERVAL_TOGGLE + " = " + interval + ";");
 
     }
 

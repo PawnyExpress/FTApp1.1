@@ -4,6 +4,7 @@ package com.example.ftapp11
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +12,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.ftapp11.data.DatabaseHandler
-import androidx.navigation.findNavController
 import com.example.ftapp11.ui.theme.FinancialTrackerTheme
 
 class MainActivity : ComponentActivity() {
@@ -35,6 +35,9 @@ class MainActivity : ComponentActivity() {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return super.onOptionsItemSelected(item)
+    }
 
 
 }
