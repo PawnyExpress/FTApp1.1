@@ -7,11 +7,11 @@ class OfflineFinancesRepository(private val incExpDao: IncExpDao) : IncExpReposi
 
     override fun getIncExpStream(id: Int): Flow<IncExp?> = incExpDao.getItem(id)
 
-    override suspend fun insertIncome(income: IncExp) = incExpDao.insert(income)
+    override suspend fun insertIncome(incExp: IncExp) = incExpDao.insert(incExp)
 
-    override suspend fun deleteIncome(income: IncExp) = incExpDao.delete(income)
+    override suspend fun deleteIncome(incExp: IncExp) = incExpDao.delete(incExp)
 
-    override suspend fun updateIncome(income: IncExp) = incExpDao.update(income)
+    override suspend fun updateIncome(incExp: IncExp) = incExpDao.update(incExp)
 
 //    override suspend fun insertExpense(expense: IncExp) = incExpDao.insert(expense)
 //

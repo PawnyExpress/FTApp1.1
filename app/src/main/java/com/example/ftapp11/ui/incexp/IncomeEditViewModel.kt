@@ -5,8 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-//import com.example.ftapp11.IncExpReposotory
+import com.example.ftapp11.data.IncExpRepository
 
+/**
+ * ViewModel to retrieve and update an item from the [IncExpRepository]'s data source.
+ */
 class IncomeEditViewModel (
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {

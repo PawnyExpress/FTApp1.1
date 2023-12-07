@@ -13,8 +13,6 @@ import com.example.ftapp11.ui.incexp.IncomeEditViewModel
 import com.example.ftapp11.ui.incexp.IncomeExpenseEntryViewModel
 
 object AppViewModelProvider {
-
-
     val Factory = viewModelFactory {
         // Initializer for IncomeEditViewModel
         initializer {
@@ -25,7 +23,7 @@ object AppViewModelProvider {
         // Initializer for IncomeEntryViewModel
         initializer {
             //IncomeExpenseEntryViewModel(
-            //    FinancialTrackerApplication().container.incExpRepository)
+            //    financialtrackerApplication().container.incExpRepository)
 
             IncomeExpenseEntryViewModel()
         }

@@ -18,7 +18,7 @@ import com.example.ftapp11.ui.incexp.IncomeEntryDestination
 import com.example.ftapp11.ui.incexp.IncomeEntryScreen
 
 @Composable
-fun InventoryNavHost(
+fun IncExpNavHost(
     navController: NavHostController,
     databaseHandler : DatabaseHandler,
     modifier: Modifier = Modifier,

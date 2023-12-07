@@ -19,4 +19,28 @@
     <string name="income">Income</string>
     <string name="amount">Amount</string>
     <string name="date">Date</string>
+    <!-- Settings Titles -->
+    <string name="settings_header">Settings</string>
+    <string name="expense_report_header">Expense Report Frequency</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your Financial Tracker App Settings</string>
+
+
+    <!-- Expense Report frequency-->
+    <string name="quarterly_title">Quarterly Report</string>
+    <string name="attachment_summary_on_quarterly">Report will be generated every quarter</string>
+    <string name="attachment_summary_off_quarterly">Automatically generate report every quarter</string>
+
+    <string name="six_month_title">6 month Report</string>
+    <string name="six_month_summary_on">Report will be generated every 6 months</string>
+    <string name="six_month_summary_off">Automatically generate report every 6 months</string>
+
+    <string name="yearly_report_title">Once a year Report</string>
+    <string name="yearly_report_summary_on">Report will be generated at the end of the year</string>
+    <string name="yearly_report_summary_off">Automatically generate report at the end of the year</string>
+
+    <string name="no_report_title">No Automatic Report</string>
+    <string name="no_report_summary_on">Report will not be generated automatically</string>
+    <string name="no_report_summary_off">Toggle automatic report off</string>
 </resources>

@@ -32,9 +32,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ftapp11.FinancialTrackerTopAppBar
-import com.example.ftapp11.R
 import com.example.ftapp11.data.IncExp
-import com.example.ftapp11.ui.incexp.formatedAmount
+import com.example.ftapp11.R
+import com.example.ftapp11.ui.incexp.formattedAmount
 import com.example.ftapp11.ui.navigation.NavigationDestination
 import com.example.ftapp11.ui.theme.FinancialTrackerTheme
 
@@ -78,7 +78,7 @@ fun HomeScreen(
         },
     ) { innerPadding ->
         HomeBody(
-            itemList = listOf(),
+            incomeList = listOf(),
             onItemClick = navigateToIncomeUpdate,
             modifier = Modifier
                 .padding(innerPadding)
@@ -89,13 +89,13 @@ fun HomeScreen(
 
 @Composable
 private fun HomeBody(
-    itemList: List<IncExp>, onItemClick: (Int) -> Unit, modifier: Modifier = Modifier
+    incomeList: List<IncExp>, onItemClick: (Int) -> Unit, modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        if (itemList.isEmpty()) {
+        if (incomeList.isEmpty()) {
             Text(
                 text = stringResource(R.string.no_item_description),
                 textAlign = TextAlign.Center,
@@ -103,7 +103,7 @@ private fun HomeBody(
             )
         } else {
             FinancesList(
-                itemList = itemList,
+                incomeList = incomeList,
                 onItemClick = { onItemClick(it.id) },
                 modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
             )
@@ -113,21 +113,21 @@ private fun HomeBody(
 
 @Composable
 private fun FinancesList(
-    itemList: List<IncExp>, onItemClick: (IncExp) -> Unit, modifier: Modifier = Modifier
+    incomeList: List<IncExp>, onItemClick: (IncExp) -> Unit, modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
-        items(items = itemList, key = { it.id }) { incexp ->
-            InventoryItem(incexp = incexp,
+        items(items = incomeList, key = { it.id }) { incExp ->
+            InventoryItem(incExp = incExp,
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.padding_small))
-                    .clickable { onItemClick(incexp) })
+                    .clickable { onItemClick(incExp) })
         }
     }
 }
 
 @Composable
 private fun InventoryItem(
-    incexp: IncExp, modifier: Modifier = Modifier
+    incExp: IncExp, modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier,
@@ -141,12 +141,12 @@ private fun InventoryItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = incexp.name,
+                    text = incExp.name,
                     style = MaterialTheme.typography.titleLarge,
                 )
                 Spacer(Modifier.weight(1f))
                 Text(
-                    text = incexp.formatedAmount(),
+                    text = incExp.formattedAmount(),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -174,7 +174,7 @@ fun HomeBodyEmptyListPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun InventoryItemPreview() {
+fun IncomeItemPreview() {
     FinancialTrackerTheme {
         InventoryItem(
             IncExp(1, "Work", 1000.0, "10/01/23"),

@@ -107,7 +107,7 @@ fun IncomeInputForm(
     incomeDetails: IncomeDetails,
     modifier: Modifier = Modifier,
     onValueChange:(IncomeDetails) -> Unit = {},
-    enbled: Boolean = true
+    enabled: Boolean = true
 ) {
     Column(
         modifier = modifier,
@@ -123,7 +123,7 @@ fun IncomeInputForm(
             disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
         ),
         modifier = Modifier.fillMaxWidth(),
-        enabled = enbled,
+        enabled = enabled,
         singleLine = true
         )
         OutlinedTextField(
@@ -138,7 +138,7 @@ fun IncomeInputForm(
             ),
             leadingIcon = { Text(Currency.getInstance(Locale.getDefault()).symbol)},
             modifier = Modifier.fillMaxWidth(),
-            enabled = enbled,
+            enabled = enabled,
             singleLine = true
         )
         OutlinedTextField(
@@ -152,10 +152,10 @@ fun IncomeInputForm(
                 disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
             ),
             modifier = Modifier.fillMaxWidth(),
-            enabled = enbled,
+            enabled = enabled,
             singleLine = true
         )
-        if (enbled) {
+        if (enabled) {
             Text(
                 text = stringResource(R.string.required_fields),
                 modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium))

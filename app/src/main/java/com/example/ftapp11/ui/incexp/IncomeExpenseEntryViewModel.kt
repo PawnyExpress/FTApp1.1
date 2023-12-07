@@ -6,11 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.ftapp11.data.DatabaseHandler
 import com.example.ftapp11.data.IncExp
+import com.example.ftapp11.data.IncExpRepository
 import java.text.NumberFormat
+import java.util.Date
 
-class IncomeExpenseEntryViewModel () : ViewModel() {
+class IncomeExpenseEntryViewModel (private val incExpRepository: IncExpRepository) : ViewModel() {
     private var db : DatabaseHandler = DatabaseHandler(null)
-
     /**
      * Required to pass context for db access
      */
@@ -41,12 +42,11 @@ class IncomeExpenseEntryViewModel () : ViewModel() {
     suspend fun saveIncExp() {
         if (validateInput()) {
             val field = incomeUiState.incomeDetails.toIncome()
-            //incExpRepository.insertIncome(incomeUiState.incomeDetails.toIncome())
+            //incExpRepository.insertIncome(incomeUiState.incomeDetails.toIncExp())
 
             db.addNewIncome(field.name, field.amount, field.date)
             println("Validated " + field.name + " " + field.amount + " " + field.date)
         }
-        //println("Test")
     }
 
 //    suspend fun saveIncExp() {
@@ -79,18 +79,18 @@ data class IncomeDetails(
 /**
  * Represents Ui State for the Expenses.
  */
-data class ExpenseUiState(
-    val expenseDetails: ExpenseDetails = ExpenseDetails(),
-    val isEntryValid: Boolean = false
-)
-data class ExpenseDetails(
-    val id: Int = 0,
-    val name: String = "",
-    val amount: String = "",
-    val date: String = "",
-)
+//data class ExpenseUiState(
+//    val expenseDetails: ExpenseDetails = ExpenseDetails(),
+//    val isEntryValid: Boolean = false
+//)
+//data class ExpenseDetails(
+//    val id: Int = 0,
+//    val name: String = "",
+//    val amount: String = "",
+//    val date: String = "",
+//)
 
-fun IncomeDetails.toIncome(): IncExp = IncExp(
+fun IncomeDetails.toIncExp(): IncExp = IncExp(
     id = id,
     name = name,
     amount = amount.toDoubleOrNull() ?: 0.0,
@@ -104,7 +104,7 @@ fun IncomeDetails.toIncome(): IncExp = IncExp(
 //    date = date
 //)
 
-fun IncExp.formatedAmount(): String {
+fun IncExp.formattedAmount(): String {
     return NumberFormat.getCurrencyInstance().format(amount)
 }
 
