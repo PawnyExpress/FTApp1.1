@@ -15,4 +15,4 @@ class HomeViewModel() : ViewModel() {
 /**
  * Ui State for HomeScreen
  */
-data class HomeUiState(val itemList: List<IncExp> = listOf())
+data class HomeUiState(val incomeList: List<IncExp> = listOf())

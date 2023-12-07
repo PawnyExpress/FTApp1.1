@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.data.IncExpRepository
 import java.text.NumberFormat
-import java.util.Date
 
 class IncomeExpenseEntryViewModel (private val incExpRepository: IncExpRepository) : ViewModel() {
     /**
@@ -32,7 +31,7 @@ class IncomeExpenseEntryViewModel (private val incExpRepository: IncExpRepositor
 //    }
     suspend fun saveIncExp() {
         if (validateInput()) {
-            incExpRepository.insertIncome(incomeUiState.incomeDetails.toIncome())
+            incExpRepository.insertIncome(incomeUiState.incomeDetails.toIncExp())
         }
     }
 
@@ -66,18 +65,18 @@ data class IncomeDetails(
 /**
  * Represents Ui State for the Expenses.
  */
-data class ExpenseUiState(
-    val expenseDetails: ExpenseDetails = ExpenseDetails(),
-    val isEntryValid: Boolean = false
-)
-data class ExpenseDetails(
-    val id: Int = 0,
-    val name: String = "",
-    val amount: String = "",
-    val date: String = "",
-)
+//data class ExpenseUiState(
+//    val expenseDetails: ExpenseDetails = ExpenseDetails(),
+//    val isEntryValid: Boolean = false
+//)
+//data class ExpenseDetails(
+//    val id: Int = 0,
+//    val name: String = "",
+//    val amount: String = "",
+//    val date: String = "",
+//)
 
-fun IncomeDetails.toIncome(): IncExp = IncExp(
+fun IncomeDetails.toIncExp(): IncExp = IncExp(
     id = id,
     name = name,
     amount = amount.toDoubleOrNull() ?: 0.0,
@@ -91,7 +90,7 @@ fun IncomeDetails.toIncome(): IncExp = IncExp(
 //    date = date
 //)
 
-fun IncExp.formatedAmount(): String {
+fun IncExp.formattedAmount(): String {
     return NumberFormat.getCurrencyInstance().format(amount)
 }
 

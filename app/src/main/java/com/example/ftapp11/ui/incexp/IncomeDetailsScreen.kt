@@ -12,7 +12,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,12 +31,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.ftapp11.FinancialTrackerTopAppBar
 import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.ui.navigation.NavigationDestination
 import com.example.ftapp11.R
-import com.example.ftapp11.ui.theme.FinancialTrackerTheme
 
 object IncomeDetailsDestination : NavigationDestination {
     override val route = "income_details"
@@ -97,7 +94,7 @@ private fun IncomeDetailsBody(
         var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
 
         IncomeDetails(
-            incExp = incomeDetailsUiState.incomeDetails.toIncome(),
+            incExp = incomeDetailsUiState.incomeDetails.toIncExp(),
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedButton(
@@ -158,7 +155,7 @@ fun IncomeDetails(
             )
             IncomeDetailsRow(
                 labelResID = R.string.amount,
-                incomeDetail = incExp.formatedAmount(),
+                incomeDetail = incExp.formattedAmount(),
                 modifier = Modifier.padding(
                     horizontal = dimensionResource(
                         id = R.dimen

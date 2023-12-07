@@ -16,17 +16,17 @@ interface IncExpRepository {
     /**
      * Insert item in the data source
      */
-    suspend fun insertIncome(income: IncExp)
+    suspend fun insertIncome(incExp: IncExp)
 
     /**
      * Delete item from the data source
      */
-    suspend fun deleteIncome(income: IncExp)
+    suspend fun deleteIncome(incExp: IncExp)
 
     /**
      * Update item in the data source
      */
-    suspend fun updateIncome(income: IncExp)
+    suspend fun updateIncome(incExp: IncExp)
     /**
      * Insert expense in the data source
      */

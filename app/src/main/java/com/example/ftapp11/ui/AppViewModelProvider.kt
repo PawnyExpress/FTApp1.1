@@ -23,7 +23,7 @@ object AppViewModelProvider {
         // Initializer for IncomeEntryViewModel
         initializer {
             IncomeExpenseEntryViewModel(
-                FinancialTrackerApplication().container.incExpRepository)
+                financialtrackerApplication().container.incExpRepository)
         }
 
         // Initializer for IncomeDetailsViewModel

@@ -11,4 +11,5 @@ class FinancialTrackerApplication : Application() {
         super.onCreate()
         container = AppDataContainer(this)
     }
+
 }

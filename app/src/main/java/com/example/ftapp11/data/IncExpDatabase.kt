@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 
 @Database(entities = [IncExp::class], version = 1, exportSchema = false)
-abstract class IncExpDatabase : RoomDatabase(){
+abstract class IncExpDatabase : RoomDatabase() {
 
     abstract fun incExpDao(): IncExpDao
 
@@ -17,7 +17,7 @@ abstract class IncExpDatabase : RoomDatabase(){
 
         fun getDatabase(context: Context): IncExpDatabase {
             return Instance ?: synchronized(this) {
-                Room.databaseBuilder(context, IncExpDatabase::class.java, "incexp_database")
+                Room.databaseBuilder(context, IncExpDatabase::class.java, "incExp_database")
                     .build().also { Instance = it}
             }
         }
