@@ -49,7 +49,10 @@ object HomeDestination : NavigationDestination {
 fun HomeScreen(
     navigateToIncomeEntry: () -> Unit,
     navigateToIncomeUpdate: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToExpenseEntry: () -> Unit,
+    navigateToExpenseUpdate: (Int) -> Unit,
+
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -78,15 +81,12 @@ fun HomeScreen(
     ) { innerPadding ->
         HomeBody(
             incExpList = listOf(),
-
             onItemClick = navigateToIncomeUpdate,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
         )
     }
-
-
 }
 
 @Composable
@@ -151,6 +151,11 @@ private fun InventoryItem(
                     text = incExp.formattedAmount(),
                     style = MaterialTheme.typography.titleMedium
                 )
+                Spacer(Modifier.weight(1f))
+                Text(
+                    text = incExp.type,
+                    style = MaterialTheme.typography.titleSmall
+                )
             }
         }
     }
@@ -161,7 +166,7 @@ private fun InventoryItem(
 fun HomeBodyPreview() {
     FinancialTrackerTheme {
         HomeBody(listOf(
-            IncExp(1, "Work", 1000.0, "10/01/23"), IncExp(2, "Freelancing", 200.0, "10/01/23"), IncExp(3, "Work Supplies", 300.0, "10/01/23")
+            IncExp(1,"Income","Work", 1000.0, "10/01/23"), IncExp(2,"Income", "Freelancing", 200.0, "10/01/23"), IncExp(3,"Expense", "Work Supplies", 300.0, "10/01/23")
         ), onItemClick = {})
     }
 }
@@ -179,7 +184,7 @@ fun HomeBodyEmptyListPreview() {
 fun IncomeItemPreview() {
     FinancialTrackerTheme {
         InventoryItem(
-            IncExp(1, "Work", 1000.0, "10/01/23"),
+            IncExp(1,"Income", "Work", 1000.0, "10/01/23"),
         )
     }
 }

@@ -114,9 +114,9 @@ fun ExpenseInputForm(
             onValueChange = {onValueChange(expenseDetails.copy(name = it))},
             label = { Text(stringResource(R.string.expense_name_req)) },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                focusedContainerColor = MaterialTheme.colorScheme.errorContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.errorContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.errorContainer,
             ),
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
@@ -128,9 +128,9 @@ fun ExpenseInputForm(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             label = { Text(stringResource(R.string.expense_amount_req)) },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                focusedContainerColor = MaterialTheme.colorScheme.errorContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.errorContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.errorContainer,
             ),
             leadingIcon = { Text(Currency.getInstance(Locale.getDefault()).symbol) },
             modifier = Modifier.fillMaxWidth(),
@@ -143,9 +143,22 @@ fun ExpenseInputForm(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             label = { Text(stringResource(R.string.expense_date_req)) },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedContainerColor =   MaterialTheme.colorScheme.secondaryContainer,
-                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                focusedContainerColor = MaterialTheme.colorScheme.errorContainer,
+                unfocusedContainerColor =   MaterialTheme.colorScheme.errorContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.errorContainer,
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+        OutlinedTextField(
+            value = expenseDetails.type,
+            onValueChange ={onValueChange(expenseDetails.copy(type = it)) },
+            label = { Text(stringResource(R.string.entry_type)) },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.errorContainer,
+                unfocusedContainerColor =   MaterialTheme.colorScheme.errorContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.errorContainer,
             ),
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,

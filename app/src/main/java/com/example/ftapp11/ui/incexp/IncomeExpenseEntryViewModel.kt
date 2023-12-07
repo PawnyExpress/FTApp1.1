@@ -62,6 +62,7 @@ data class IncomeUiState(
 
 data class IncomeDetails(
     val id: Int = 0,
+    val type: String = "Income",
     val name: String = "",
     val amount: String = "",
     val date: String = "",
@@ -75,6 +76,7 @@ data class ExpenseUiState(
 )
 data class ExpenseDetails(
     val id: Int = 0,
+    val type: String = "Expense",
     val name: String = "",
     val amount: String = "",
     val date: String = "",
@@ -82,6 +84,7 @@ data class ExpenseDetails(
 
 fun IncomeDetails.toIncExp(): IncExp = IncExp(
     id = id,
+    type = type,
     name = name,
     amount = amount.toDoubleOrNull() ?: 0.0,
     date = date
@@ -89,6 +92,7 @@ fun IncomeDetails.toIncExp(): IncExp = IncExp(
 
 fun ExpenseDetails.toIncExp(): IncExp = IncExp(
     id = id,
+    type = type,
     name = name,
     amount = amount.toDoubleOrNull() ?: 0.0,
     date = date
@@ -110,6 +114,7 @@ fun IncExp.toExpenseUiState(isEntryValid: Boolean = false): ExpenseUiState = Exp
 
 fun IncExp.toIncomeDetails(): IncomeDetails = IncomeDetails(
     id = id,
+    type = type,
     name = name,
     amount = amount.toString(),
     date = date
@@ -117,6 +122,7 @@ fun IncExp.toIncomeDetails(): IncomeDetails = IncomeDetails(
 
 fun IncExp.toExpenseDetails(): ExpenseDetails = ExpenseDetails(
     id = id,
+    type = type,
     name = name,
     amount = amount.toString(),
     date = date

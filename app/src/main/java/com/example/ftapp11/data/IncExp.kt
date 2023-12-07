@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 data class IncExp (
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
+    val type: String,
     val name: String,
     val amount: Double,
     val date: String

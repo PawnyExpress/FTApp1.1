@@ -34,7 +34,13 @@ fun IncExpNavHost(
             HomeScreen(navigateToIncomeEntry = { navController.navigate(IncomeEntryDestination.route) },
                 navigateToIncomeUpdate = {
                     navController.navigate("${IncomeDetailsDestination.route}/${it}")
-                })
+                },
+                navigateToExpenseEntry = {navController.navigate(ExpenseEntryDestination.route)},
+                navigateToExpenseUpdate =  {
+                    navController.navigate("${ExpenseDetailsDestination.route}/${it}")
+                }
+            )
+
         }
         composable(route = IncomeEntryDestination.route) {
             IncomeEntryScreen(navigateBack = { navController.popBackStack() },
