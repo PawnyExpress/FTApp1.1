@@ -19,13 +19,13 @@
     <string name="income">Income</string>
     <string name="amount">Amount</string>
     <string name="date">Date</string>
-    <!-- Preference Titles -->
-    <string name="messages_header">Settings</string>
-    <string name="sync_header">Expense report frequency</string>
+    <!-- Settings Titles -->
+    <string name="settings_header">Settings</string>
+    <string name="expense_report_header">Expense Report Frequency</string>
 
     <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
+    <string name="signature_title">Your Financial Tracker App Settings</string>
+
 
     <!-- Expense Report frequency-->
     <string name="quarterly_title">Quarterly Report</string>
