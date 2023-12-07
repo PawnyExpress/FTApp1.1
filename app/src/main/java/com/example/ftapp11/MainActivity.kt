@@ -1,9 +1,10 @@
 package com.example.ftapp11
 
 
-import android.R
+
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,7 +32,8 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main, menu)
         return true
     }
 
