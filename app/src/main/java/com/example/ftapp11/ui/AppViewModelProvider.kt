@@ -8,6 +8,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.ftapp11.FinancialTrackerApplication
 import com.example.ftapp11.ui.home.HomeViewModel
+import com.example.ftapp11.ui.incexp.ExpenseDetailsViewModel
+import com.example.ftapp11.ui.incexp.ExpenseEditViewModel
 import com.example.ftapp11.ui.incexp.IncomeDetailsViewModel
 import com.example.ftapp11.ui.incexp.IncomeEditViewModel
 import com.example.ftapp11.ui.incexp.IncomeExpenseEntryViewModel
@@ -31,6 +33,24 @@ object AppViewModelProvider {
         // Initializer for IncomeDetailsViewModel
         initializer {
             IncomeDetailsViewModel(
+                this.createSavedStateHandle()
+            )
+        }
+        // Initializer for ExpenseEditViewModel
+        initializer {
+            ExpenseEditViewModel(
+                this.createSavedStateHandle()
+            )
+        }
+        // Initializer for ExpenseEntryViewModel
+        initializer {
+            IncomeExpenseEntryViewModel(
+                financialtrackerApplication().container.incExpRepository)
+        }
+
+        // Initializer for ExpenseDetailsViewModel
+        initializer {
+            ExpenseDetailsViewModel(
                 this.createSavedStateHandle()
             )
         }

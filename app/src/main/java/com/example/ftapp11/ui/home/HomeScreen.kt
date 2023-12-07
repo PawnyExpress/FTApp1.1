@@ -49,8 +49,6 @@ object HomeDestination : NavigationDestination {
 fun HomeScreen(
     navigateToIncomeEntry: () -> Unit,
     navigateToIncomeUpdate: (Int) -> Unit,
-    //navigateToExpenseEntry: () -> Unit,
-    //navigateToIxpenseUpdate: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -76,6 +74,7 @@ fun HomeScreen(
                 )
             }
         },
+
     ) { innerPadding ->
         HomeBody(
             incomeList = listOf(),
@@ -85,6 +84,8 @@ fun HomeScreen(
                 .fillMaxSize()
         )
     }
+
+
 }
 
 @Composable
