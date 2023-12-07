@@ -17,31 +17,35 @@ class IncomeExpenseEntryViewModel (private val incExpRepository: IncExpRepositor
     /**
      * Holds current expense ui state
      */
-//    var expenseUiState by mutableStateOf(ExpenseUiState())
-//        private set
+    var expenseUiState by mutableStateOf(ExpenseUiState())
+        private set
 
     fun updateIncomeUiState(incomeDetails : IncomeDetails) {
         incomeUiState =
-            IncomeUiState(incomeDetails = incomeDetails, isEntryValid = validateInput(incomeDetails))
+            IncomeUiState(incomeDetails = incomeDetails, isEntryValid = validateIncomeInput(incomeDetails))
     }
 
-//    fun updateExpenseUiState(expenseDetails : ExpenseDetails) {
-//        expenseUiState =
-//            ExpenseUiState(expenseDetails = expenseDetails, isEntryValid = validateInput(expenseDetails))
-//    }
+    fun updateExpenseUiState(expenseDetails: ExpenseDetails) {
+        expenseUiState =
+            ExpenseUiState(expenseDetails = expenseDetails, isEntryValid = validateExpenseInput(expenseDetails))
+    }
     suspend fun saveIncExp() {
-        if (validateInput()) {
+        if (validateIncomeInput()) {
             incExpRepository.insertIncome(incomeUiState.incomeDetails.toIncExp())
+        }
+        if (validateExpenseInput()) {
+            incExpRepository.insertExpense(expenseUiState.expenseDetails.toIncExp())
         }
     }
 
-//    suspend fun saveIncExp() {
-//        if (validateInput()) {
-//            IncExpRepository.insertIncExp(expenseUiState.incomeDetails.toExpense())
-//        }
-//    }
 
-    private fun validateInput(uiState: IncomeDetails = incomeUiState.incomeDetails): Boolean {
+    private fun validateIncomeInput(uiState: IncomeDetails = incomeUiState.incomeDetails): Boolean {
+        return with(uiState) {
+            name.isNotBlank() && amount.isNotBlank() && date.isNotBlank()
+        }
+    }
+
+    private fun validateExpenseInput(uiState: ExpenseDetails = expenseUiState.expenseDetails): Boolean {
         return with(uiState) {
             name.isNotBlank() && amount.isNotBlank() && date.isNotBlank()
         }
@@ -65,16 +69,16 @@ data class IncomeDetails(
 /**
  * Represents Ui State for the Expenses.
  */
-//data class ExpenseUiState(
-//    val expenseDetails: ExpenseDetails = ExpenseDetails(),
-//    val isEntryValid: Boolean = false
-//)
-//data class ExpenseDetails(
-//    val id: Int = 0,
-//    val name: String = "",
-//    val amount: String = "",
-//    val date: String = "",
-//)
+data class ExpenseUiState(
+    val expenseDetails: ExpenseDetails = ExpenseDetails(),
+    val isEntryValid: Boolean = false
+)
+data class ExpenseDetails(
+    val id: Int = 0,
+    val name: String = "",
+    val amount: String = "",
+    val date: String = "",
+)
 
 fun IncomeDetails.toIncExp(): IncExp = IncExp(
     id = id,
@@ -83,12 +87,12 @@ fun IncomeDetails.toIncExp(): IncExp = IncExp(
     date = date
 )
 
-//fun ExpenseDetails.toExpense(): IncExp = IncExp(
-//    id = id,
-//    name = name,
-//    amount = amount.toDoubleOrNull() ?: 0.0,
-//    date = date
-//)
+fun ExpenseDetails.toIncExp(): IncExp = IncExp(
+    id = id,
+    name = name,
+    amount = amount.toDoubleOrNull() ?: 0.0,
+    date = date
+)
 
 fun IncExp.formattedAmount(): String {
     return NumberFormat.getCurrencyInstance().format(amount)
@@ -99,21 +103,21 @@ fun IncExp.toIncomeUiState(isEntryValid: Boolean = false): IncomeUiState = Incom
     isEntryValid = isEntryValid
 )
 
-//fun IncExp.toExpenseUiState(isEntryValid: Boolean = false): ExpenseUiState = ExpenseUiState(
-//    expenseDetails = this.toExpenseDetails(),
-//    isEntryValid = isEntryValid
-//)
+fun IncExp.toExpenseUiState(isEntryValid: Boolean = false): ExpenseUiState = ExpenseUiState(
+    expenseDetails = this.toExpenseDetails(),
+    isEntryValid = isEntryValid
+)
 
 fun IncExp.toIncomeDetails(): IncomeDetails = IncomeDetails(
     id = id,
     name = name,
     amount = amount.toString(),
-    date = date.toString()
+    date = date
 )
 
-//fun IncExp.toExpenseDetails(): ExpenseDetails = ExpenseDetails(
-//    id = id,
-//    name = name,
-//    amount = amount.toString(),
-//    date = date.toString()
-//)
+fun IncExp.toExpenseDetails(): ExpenseDetails = ExpenseDetails(
+    id = id,
+    name = name,
+    amount = amount.toString(),
+    date = date
+)

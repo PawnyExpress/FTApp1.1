@@ -142,7 +142,7 @@ fun IncomeInputForm(
             value = incomeDetails.date,
             onValueChange = { onValueChange(incomeDetails.copy(date = it)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            label = { Text(stringResource(R.string.date_req)) },
+            label = { Text(stringResource(R.string.income_date_req)) },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 unfocusedContainerColor =   MaterialTheme.colorScheme.secondaryContainer,

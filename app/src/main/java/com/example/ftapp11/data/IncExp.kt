@@ -2,7 +2,7 @@ package com.example.ftapp11.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.Date
+
 
 @Entity(tableName = "finances")
 data class IncExp (
