@@ -5,19 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.ftapp11.data.IncExpRepository
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 
 /**
  * ViewModel to retrieve and update an item from the [IncExpRepository]'s data source.
  */
 class IncomeEditViewModel (
     savedStateHandle: SavedStateHandle,
-    private val incExpRepository: IncExpRepository
+//    private val incExpRepository: IncExpRepository
 ) : ViewModel() {
     /**
      * Holds current income ui state
@@ -25,20 +20,25 @@ class IncomeEditViewModel (
     var incomeUiState by mutableStateOf(IncomeUiState())
     private set
 
-    private val incomeId: Int = checkNotNull(savedStateHandle[IncomeEditDestination.incomeIdArg])
+    private val incomeId: Int = checkNotNull(savedStateHandle[IncomeDetailsDestination.incomeIdArg])
 
-    init {
-        viewModelScope.launch {
-            incomeUiState = incExpRepository.getIncExpStream(incomeId)
-                .filterNotNull()
-                .first()
-                .toIncomeUiState(true)
-        }
+
+    fun getIncomeId(): Int {
+
+        return incomeId
     }
+//    init {
+//        viewModelScope.launch {
+//            incomeUiState = incExpRepository.getIncExpStream(incomeId)
+//                .filterNotNull()
+//                .first()
+//                .toIncomeUiState(true)
+//        }
+//    }
 
     suspend fun updateIncome() {
         if (validateInput(incomeUiState.incomeDetails)) {
-            incExpRepository.updateIncome(incomeUiState.incomeDetails.toIncExp())
+//            incExpRepository.updateIncome(incomeUiState.incomeDetails.toIncExp())
         }
     }
 

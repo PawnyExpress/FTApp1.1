@@ -23,7 +23,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -57,7 +56,7 @@ fun ExpenseDetailsScreen(
     viewModel: ExpenseDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
 ) {
-    val uiState = viewModel.uiState.collectAsState()
+//    val uiState = viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
@@ -69,7 +68,8 @@ fun ExpenseDetailsScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navigateToEditExpense(uiState.value.expenseDetails.id) },
+//                onClick = { navigateToEditExpense(uiState.value.expenseDetails.id) },
+                onClick = { navigateToEditExpense(0) },
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
             ) {
@@ -81,8 +81,8 @@ fun ExpenseDetailsScreen(
         }, modifier = modifier
     ) { innerPadding ->
         ExpenseDetailsBody(
-            expenseDetailsUiState = uiState.value,
-            //expenseDetailsUiState = ExpenseDetailsUiState(),
+//            expenseDetailsUiState = uiState.value,
+            expenseDetailsUiState = ExpenseDetailsUiState(),
             onDelete = {
                        coroutineScope.launch {
                            viewModel.deleteExpense()

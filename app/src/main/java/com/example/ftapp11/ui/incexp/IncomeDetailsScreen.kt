@@ -23,7 +23,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,11 +34,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ftapp11.FinancialTrackerTopAppBar
+import com.example.ftapp11.R
 import com.example.ftapp11.data.DatabaseHandler
 import com.example.ftapp11.data.IncExp
-import com.example.ftapp11.ui.navigation.NavigationDestination
-import com.example.ftapp11.R
 import com.example.ftapp11.ui.AppViewModelProvider
+import com.example.ftapp11.ui.navigation.NavigationDestination
 import kotlinx.coroutines.launch
 
 object IncomeDetailsDestination : NavigationDestination {
@@ -48,7 +47,7 @@ object IncomeDetailsDestination : NavigationDestination {
     const val incomeIdArg = "incomeId"
     val routeWithArgs = "$route/{$incomeIdArg}"
 }
-
+var dbInt : Int = 100
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IncomeDetailsScreen(
@@ -58,10 +57,10 @@ fun IncomeDetailsScreen(
     databaseHandler : DatabaseHandler,
     viewModel: IncomeDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    val data : IncExp = databaseHandler.getIncome()[viewModel.getIncomeId()];
 
-    val uiState = viewModel.uiState.collectAsState()
+//    val uiState = viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
+    val data : IncExp = databaseHandler.getIncome(viewModel.getIncomeId())
     Scaffold(
         topBar = {
             FinancialTrackerTopAppBar(
@@ -72,7 +71,8 @@ fun IncomeDetailsScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navigateToEditIncome(uiState.value.incomeDetails.id) },
+//                onClick = { navigateToEditIncome(uiState.value.incomeDetails.id) },
+                onClick = { navigateToEditIncome(dbInt) }, /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
             ) {
@@ -84,6 +84,7 @@ fun IncomeDetailsScreen(
         }, modifier = modifier
     ) { innerPadding ->
         IncomeDetailsBody(
+            data,
             incomeDetailsUiState = IncomeDetailsUiState(),
             onDelete = {
                 coroutineScope.launch {
@@ -93,17 +94,20 @@ fun IncomeDetailsScreen(
                        },
             modifier = Modifier                .padding(innerPadding)
                 .verticalScroll(rememberScrollState()),
-            data
+            databaseHandler,
+            viewModel
         )
     }
 }
 
 @Composable
 private fun IncomeDetailsBody(
+    data : IncExp,
     incomeDetailsUiState: IncomeDetailsUiState,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
-    data : IncExp
+    databaseHandler : DatabaseHandler,
+    viewModel: IncomeDetailsViewModel
 ) {
     Column(
         modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
@@ -112,9 +116,11 @@ private fun IncomeDetailsBody(
         var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
 
         IncomeDetails(
+            data,
             incExp = incomeDetailsUiState.incomeDetails.toIncExp(),
             modifier = Modifier.fillMaxWidth(),
-            data
+            databaseHandler,
+            viewModel
         )
         OutlinedButton(
             onClick = { deleteConfirmationRequired = true },
@@ -128,6 +134,7 @@ private fun IncomeDetailsBody(
                 onDeleteConfirm = {
                     deleteConfirmationRequired = false
                     onDelete()
+                    databaseHandler.deleteIncomeEntry(data);
                 },
                 onDeleteCancel = { deleteConfirmationRequired = false },
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
@@ -138,7 +145,8 @@ private fun IncomeDetailsBody(
 
 @Composable
 fun IncomeDetails(
-    incExp: IncExp, modifier: Modifier = Modifier, data : IncExp
+    data : IncExp, incExp: IncExp, modifier: Modifier = Modifier, databaseHandler : DatabaseHandler,
+    viewModel: IncomeDetailsViewModel
 ) {
     Card(
         modifier = modifier, colors = CardDefaults.cardColors(

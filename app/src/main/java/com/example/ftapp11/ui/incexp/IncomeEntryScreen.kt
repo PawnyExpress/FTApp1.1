@@ -20,14 +20,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ftapp11.FinancialTrackerTopAppBar
 import com.example.ftapp11.R
 import com.example.ftapp11.data.DatabaseHandler
+import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.ui.AppViewModelProvider
 import com.example.ftapp11.ui.navigation.NavigationDestination
-import com.example.ftapp11.ui.theme.FinancialTrackerTheme
 import kotlinx.coroutines.launch
 import java.util.Currency
 import java.util.Locale
@@ -35,11 +34,14 @@ import java.util.Locale
 object IncomeEntryDestination : NavigationDestination {
     override val route = "income_entry"
     override val titleRes = R.string.income_entry_title
+    const val incomeIdArg = "incomeId"
+    val routeWithArgs = "${IncomeEntryDestination.route}/{$incomeIdArg}"
 }
-
+var currentData : IncExp? = null
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IncomeEntryScreen(
+    data : IncExp,
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
@@ -58,6 +60,8 @@ fun IncomeEntryScreen(
         }
     ) { innerPadding ->
         IncomeEntryBody(
+            data,
+            databaseHandler,
             incomeUiState = viewModel.incomeUiState,
             onIncomeValueChange = viewModel::updateIncomeUiState,
             onSaveClick = {
@@ -76,6 +80,8 @@ fun IncomeEntryScreen(
 }
 @Composable
 fun IncomeEntryBody(
+    data : IncExp,
+    databaseHandler : DatabaseHandler,
     incomeUiState: IncomeUiState,
     onIncomeValueChange: (IncomeDetails) -> Unit,
     onSaveClick: () -> Unit,
@@ -86,13 +92,14 @@ fun IncomeEntryBody(
         modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium))
     ) {
         IncomeInputForm(
+            data,
             incomeDetails = incomeUiState.incomeDetails,
             onValueChange =  onIncomeValueChange,
             modifier = Modifier.fillMaxWidth()
         )
         Button(
-            onClick =onSaveClick,
-            enabled = incomeUiState.isEntryValid,
+            onClick = {databaseHandler.updateIncomeEntry(currentData) },
+            enabled = true,
             shape = MaterialTheme.shapes.small,
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -104,17 +111,19 @@ fun IncomeEntryBody(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IncomeInputForm(
+    data : IncExp,
     incomeDetails: IncomeDetails,
     modifier: Modifier = Modifier,
     onValueChange:(IncomeDetails) -> Unit = {},
     enabled: Boolean = true
 ) {
+    currentData = data
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
         OutlinedTextField(
-        value = incomeDetails.name,
+        value = data.name,
         onValueChange = {onValueChange(incomeDetails.copy(name = it))},
         label = { Text(stringResource(R.string.income_name_req)) },
         colors = OutlinedTextFieldDefaults.colors(
@@ -127,7 +136,7 @@ fun IncomeInputForm(
         singleLine = true
         )
         OutlinedTextField(
-            value = incomeDetails.amount,
+            value = data.amount.toString(),
             onValueChange = { onValueChange(incomeDetails.copy(amount = it)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             label = { Text(stringResource(R.string.income_amount_req))},
@@ -142,7 +151,7 @@ fun IncomeInputForm(
             singleLine = true
         )
         OutlinedTextField(
-            value = incomeDetails.date,
+            value = data.date,
             onValueChange = { onValueChange(incomeDetails.copy(date = it)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             label = { Text(stringResource(R.string.income_date_req)) },
@@ -156,7 +165,7 @@ fun IncomeInputForm(
             singleLine = true
         )
         OutlinedTextField(
-            value = incomeDetails.type,
+            value = data.type,
             onValueChange ={onValueChange(incomeDetails.copy(type = it)) },
             label = { Text(stringResource(R.string.entry_type)) },
             colors = OutlinedTextFieldDefaults.colors(
@@ -177,18 +186,18 @@ fun IncomeInputForm(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun IncomeEntryScreenPreview() {
-    FinancialTrackerTheme {
-        IncomeEntryBody(
-            incomeUiState = IncomeUiState(
-                IncomeDetails(
-                    name = "Income Name", amount = "1500.00", date = "11/27/23"
-                )
-            ),
-            onIncomeValueChange = {},
-            onSaveClick = {})
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//private fun IncomeEntryScreenPreview() {
+//    FinancialTrackerTheme {
+//        IncomeEntryBody(
+//            incomeUiState = IncomeUiState(
+//                IncomeDetails(
+//                    name = "Income Name", amount = "1500.00", date = "11/27/23"
+//                )
+//            ),
+//            onIncomeValueChange = {},
+//            onSaveClick = {})
+//    }
+//}
 

@@ -6,13 +6,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ftapp11.FinancialTrackerTopAppBar
 import com.example.ftapp11.R
+import com.example.ftapp11.data.DatabaseHandler
+import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.ui.AppViewModelProvider
 import com.example.ftapp11.ui.navigation.NavigationDestination
-import com.example.ftapp11.ui.theme.FinancialTrackerTheme
 
 object IncomeEditDestination : NavigationDestination {
     override val route = "income_edit"
@@ -25,11 +25,14 @@ object IncomeEditDestination : NavigationDestination {
 @Composable
 
 fun IncomeEditScreen(
+    databaseHandler : DatabaseHandler,
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: IncomeEditViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    val data : IncExp = databaseHandler.getIncome(viewModel.getIncomeId())
+
     Scaffold (
         topBar = {
             FinancialTrackerTopAppBar(
@@ -41,6 +44,8 @@ fun IncomeEditScreen(
         modifier = modifier
     ) { innerPadding ->
         IncomeEntryBody(
+            data,
+            databaseHandler,
         incomeUiState = viewModel.incomeUiState,
         onIncomeValueChange = { },
         onSaveClick = { },
@@ -50,10 +55,10 @@ fun IncomeEditScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun IncomeEditScreenPreview() {
-    FinancialTrackerTheme {
-        IncomeEditScreen(navigateBack = { /*Do nothing*/ }, onNavigateUp = { /*Do Nothing*/ })
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun IncomeEditScreenPreview() {
+//    FinancialTrackerTheme {
+//        IncomeEditScreen(navigateBack = { /*Do nothing*/ }, onNavigateUp = { /*Do Nothing*/ })
+//    }
+//}

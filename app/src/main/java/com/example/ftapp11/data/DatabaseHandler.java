@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -29,7 +30,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     private static final String TO_DATE_COL = "toDate" ;
     private static final String NOTIFICATIONS_TOGGLE = "notificationsToggle";
     private static final String INTERVAL_TOGGLE = "intervalToggle";
-    private static final int columnCount = 3;
+    private static final int COLUMN_COUNT = 4;
     private static final String incomeTableCreate = "CREATE TABLE " + TABLE_NAME_INCOME + " ("
             + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + DESC_COL + " TEXT, "
@@ -144,7 +145,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_EXPENSES + ";", null );
 
 
-        String[][] expenseData = new String[cursor.getCount()][columnCount];
+        String[][] expenseData = new String[cursor.getCount()][COLUMN_COUNT];
         if (cursor.moveToFirst()){
             if (cursor.getString(2) != null){
                 int i = 0;
@@ -189,22 +190,26 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_INCOME + ";", null );
 
 
-        String[][] incomeData = new String[cursor.getCount()][columnCount];
+        String[][] incomeData = new String[cursor.getCount()][COLUMN_COUNT];
         if (cursor.moveToFirst()){
             if (cursor.getString(2) != null){
                 int i = 0;
                 do {
                     int[] checkDate = convertDates(cursor.getString(2));
-                    if (checkDate[0] >= fromDate[0] && checkDate[0] <= toDate[0]){
-                        if (checkDate[1] >= fromDate[1] && checkDate[1] <= toDate[1]){
-                            if (checkDate[2] >= fromDate[2] && checkDate[2] <= toDate[2]) {
-                                incomeData[i][0] = cursor.getString(1);
-                                incomeData[i][1] = cursor.getString(2);
-                                incomeData[i][2] = cursor.getString(3);
 
-                            }
-                        }
+                    Date start = new GregorianCalendar(fromDate[2], fromDate[0], fromDate[1]).getTime();
+                    Date end = new GregorianCalendar(toDate[2], toDate[0], toDate[1]).getTime();
+                    Date check = new GregorianCalendar(checkDate[2], checkDate[0], checkDate[1]).getTime();
+
+                    if (check.getTime() >= start.getTime() && check.getTime() <= end.getTime()) {
+
+                        incomeData[i][0] = cursor.getString(0);
+                        incomeData[i][1] = cursor.getString(1);
+                        incomeData[i][2] = cursor.getString(2);
+                        incomeData[i][3] = cursor.getString(3);
+
                     }
+
                     i++;
                 } while (cursor.moveToNext());
             }
@@ -214,7 +219,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         //System.out.println("Stringified Income: " + stringifyData(incomeData, incomeData.length));
 
         for(int i=0;i<incomeData.length;i++)
-                data.add(new IncExp(i, incomeData[i][0], Double.valueOf(incomeData[i][2]), incomeData[i][1]));
+
+                data.add(new IncExp(Integer.valueOf(incomeData[i][0]),"Income", incomeData[i][1], Double.valueOf(incomeData[i][3]), incomeData[i][2]));
 
         //System.out.println(data);
 
@@ -227,6 +233,33 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         return data;
     }
 
+    public IncExp getIncome(Integer index){
+        IncExp data;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_INCOME + " WHERE " + ID_COL + " = " + index + ";", null );
+
+        if (cursor.moveToFirst()){
+            data = new IncExp(Integer.valueOf(cursor.getString(0)),"Income", cursor.getString(1), Double.valueOf(cursor.getString(3)), cursor.getString(2));
+            return data;
+        } else {
+
+            return null;
+        }
+
+    }
+
+    public void updateIncomeEntry(IncExp data){
+        System.out.println(data);
+
+    }
+
+    public void deleteIncomeEntry(IncExp data){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        db.execSQL("DELETE FROM " + TABLE_NAME_INCOME + " WHERE " + ID_COL + " = " + data.getId() + ";");
+
+    }
+
     /**
      * Takes a 2-Dimensional array pulled from database and converts the data
      * to a readable string.
@@ -237,7 +270,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     private String stringifyData(String[][] data, int cursorCount){
         String print = "";
         for (int i = 0; i < cursorCount; i++){
-            for (int j = 0; j < columnCount; j++){
+            for (int j = 0; j < COLUMN_COUNT; j++){
                 if (data[i][j] != null){
                     if (j == 0){
                         print += "Desc: ";
@@ -274,7 +307,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
             }
         }
 
-        cleanedArray = new String[count][columnCount];
+        cleanedArray = new String[count][COLUMN_COUNT];
 
         Object[] test = cleanCellList.toArray();
         for(int i = 0; i < test.length; i++){

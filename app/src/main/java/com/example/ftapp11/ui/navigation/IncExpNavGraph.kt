@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.ftapp11.data.DatabaseHandler
+import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.ui.home.HomeDestination
 import com.example.ftapp11.ui.home.HomeScreen
 import com.example.ftapp11.ui.incexp.ExpenseDetailsDestination
@@ -36,13 +37,18 @@ fun IncExpNavHost(
     ) {
         composable(route = HomeDestination.route) {
             HomeScreen(
-                navigateToIncomeEntry = { navController.navigate(IncomeEntryDestination.route) },
+                navigateToIncomeEntry = { navController.navigate("${IncomeDetailsDestination.route}/${it}") },
                 navigateToIncomeUpdate = {
                     navController.navigate("${IncomeDetailsDestination.route}/${it}")
                 }, modifier , databaseHandler)
         }
-        composable(route = IncomeEntryDestination.route) {
-            IncomeEntryScreen(navigateBack = { navController.popBackStack() },
+        composable(route = IncomeEntryDestination.routeWithArgs,
+            arguments = listOf(navArgument(IncomeEntryDestination.incomeIdArg){
+                type = NavType.IntType
+            })
+
+        ) {
+            IncomeEntryScreen( IncExp(1, "", "", 1.0 , ""), navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp()}, true , databaseHandler)
         }
         composable(
@@ -54,7 +60,7 @@ fun IncExpNavHost(
             IncomeDetailsScreen(
                 navigateToEditIncome =
                 {
-                    navController.navigate("${IncomeEditDestination.route}/$it")
+                    navController.navigate("${IncomeEditDestination.route}/${it}")
                 },
                 navigateBack = { navController.navigateUp() }, modifier, databaseHandler)
         }
@@ -65,8 +71,11 @@ fun IncExpNavHost(
             })
         ) {
             IncomeEditScreen(
+                databaseHandler,
                 navigateBack = { navController.popBackStack() },
-                onNavigateUp = { navController.navigateUp() })
+                onNavigateUp = { navController.navigateUp() }
+                )
+
         }
         composable(route = ExpenseEntryDestination.route){
             ExpenseEntryScreen(navigateBack = { navController.popBackStack() },

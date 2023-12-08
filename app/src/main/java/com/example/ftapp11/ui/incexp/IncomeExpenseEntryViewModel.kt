@@ -6,10 +6,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.ftapp11.data.DatabaseHandler
 import com.example.ftapp11.data.IncExp
-import com.example.ftapp11.data.IncExpRepository
 import java.text.NumberFormat
 
 class IncomeExpenseEntryViewModel () : ViewModel() {
+
     private var db : DatabaseHandler = DatabaseHandler(null)
     /**
      * Required to pass context for db access
