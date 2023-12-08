@@ -42,6 +42,7 @@ class IncomeEditViewModel (
         }
     }
 
+
     fun updateUiState(incomeDetails: IncomeDetails) {
         incomeUiState =
             IncomeUiState(incomeDetails = incomeDetails, isEntryValid = validateInput(incomeDetails))

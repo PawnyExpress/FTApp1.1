@@ -44,10 +44,11 @@ fun IncomeEditScreen(
         modifier = modifier
     ) { innerPadding ->
         IncomeEntryBody(
-            data,
             databaseHandler,
+            true,
+            data,
         incomeUiState = viewModel.incomeUiState,
-        onIncomeValueChange = { },
+        onIncomeValueChange = {viewModel::updateUiState },
         onSaveClick = { },
         modifier = Modifier.padding(innerPadding)
         )

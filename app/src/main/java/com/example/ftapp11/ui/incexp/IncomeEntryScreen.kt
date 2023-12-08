@@ -60,8 +60,9 @@ fun IncomeEntryScreen(
         }
     ) { innerPadding ->
         IncomeEntryBody(
-            data,
             databaseHandler,
+            false,
+            null,
             incomeUiState = viewModel.incomeUiState,
             onIncomeValueChange = viewModel::updateIncomeUiState,
             onSaveClick = {
@@ -80,8 +81,9 @@ fun IncomeEntryScreen(
 }
 @Composable
 fun IncomeEntryBody(
-    data : IncExp,
-    databaseHandler : DatabaseHandler,
+    databaseHandler: DatabaseHandler,
+    update: Boolean,
+    data: IncExp?,
     incomeUiState: IncomeUiState,
     onIncomeValueChange: (IncomeDetails) -> Unit,
     onSaveClick: () -> Unit,
@@ -98,7 +100,7 @@ fun IncomeEntryBody(
             modifier = Modifier.fillMaxWidth()
         )
         Button(
-            onClick = {databaseHandler.updateIncomeEntry(currentData) },
+            onClick = { databaseHandler.updateIncomeEntry(data)},
             enabled = true,
             shape = MaterialTheme.shapes.small,
             modifier = Modifier.fillMaxWidth()
@@ -111,32 +113,32 @@ fun IncomeEntryBody(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IncomeInputForm(
-    data : IncExp,
+    data : IncExp?,
     incomeDetails: IncomeDetails,
     modifier: Modifier = Modifier,
     onValueChange:(IncomeDetails) -> Unit = {},
     enabled: Boolean = true
 ) {
-    currentData = data
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
         OutlinedTextField(
-        value = data.name,
-        onValueChange = {onValueChange(incomeDetails.copy(name = it))},
-        label = { Text(stringResource(R.string.income_name_req)) },
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-        ),
-        modifier = Modifier.fillMaxWidth(),
-        enabled = enabled,
-        singleLine = true
+            value = incomeDetails.name,
+            onValueChange = {onValueChange(incomeDetails.copy(name = it))},
+            label = { Text(stringResource(R.string.income_name_req)) },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
         )
         OutlinedTextField(
-            value = data.amount.toString(),
+            value = incomeDetails.amount,
             onValueChange = { onValueChange(incomeDetails.copy(amount = it)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             label = { Text(stringResource(R.string.income_amount_req))},
@@ -151,7 +153,7 @@ fun IncomeInputForm(
             singleLine = true
         )
         OutlinedTextField(
-            value = data.date,
+            value = incomeDetails.date,
             onValueChange = { onValueChange(incomeDetails.copy(date = it)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             label = { Text(stringResource(R.string.income_date_req)) },
@@ -165,7 +167,7 @@ fun IncomeInputForm(
             singleLine = true
         )
         OutlinedTextField(
-            value = data.type,
+            value = incomeDetails.type,
             onValueChange ={onValueChange(incomeDetails.copy(type = it)) },
             label = { Text(stringResource(R.string.entry_type)) },
             colors = OutlinedTextFieldDefaults.colors(
@@ -176,7 +178,7 @@ fun IncomeInputForm(
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
-            )
+        )
         if (enabled) {
             Text(
                 text = stringResource(R.string.required_fields),
