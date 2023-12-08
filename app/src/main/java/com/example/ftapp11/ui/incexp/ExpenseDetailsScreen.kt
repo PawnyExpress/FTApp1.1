@@ -23,18 +23,23 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ftapp11.FinancialTrackerTopAppBar
 import com.example.ftapp11.R
 import com.example.ftapp11.data.IncExp
+import com.example.ftapp11.ui.AppViewModelProvider
 import com.example.ftapp11.ui.navigation.NavigationDestination
+import kotlinx.coroutines.launch
 
 object ExpenseDetailsDestination : NavigationDestination {
     override val route = "expense_details"
@@ -48,8 +53,12 @@ object ExpenseDetailsDestination : NavigationDestination {
 fun ExpenseDetailsScreen(
     navigateToEditExpense: (Int) -> Unit,
     navigateBack: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: ExpenseDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory)
+
 ) {
+    val uiState = viewModel.uiState.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             FinancialTrackerTopAppBar(
@@ -60,7 +69,7 @@ fun ExpenseDetailsScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navigateToEditExpense(0) },
+                onClick = { navigateToEditExpense(uiState.value.expenseDetails.id) },
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
             ) {
@@ -72,8 +81,14 @@ fun ExpenseDetailsScreen(
         }, modifier = modifier
     ) { innerPadding ->
         ExpenseDetailsBody(
-            expenseDetailsUiState = ExpenseDetailsUiState(),
-            onDelete = { },
+            expenseDetailsUiState = uiState.value,
+            //expenseDetailsUiState = ExpenseDetailsUiState(),
+            onDelete = {
+                       coroutineScope.launch {
+                           viewModel.deleteExpense()
+                           navigateBack()
+                       }
+            },
             modifier = Modifier
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())

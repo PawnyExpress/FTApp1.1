@@ -28,13 +28,15 @@ fun IncExpNavHost(
     navController: NavHostController,
     databaseHandler : DatabaseHandler,
     modifier: Modifier = Modifier,
-
 ) {
     NavHost(
-        navController = navController, startDestination = HomeDestination.route, modifier = modifier,
+        navController = navController,
+        startDestination = HomeDestination.route,
+        modifier = modifier
     ) {
         composable(route = HomeDestination.route) {
-            HomeScreen(navigateToIncomeEntry = { navController.navigate(IncomeEntryDestination.route) },
+            HomeScreen(
+                navigateToIncomeEntry = { navController.navigate(IncomeEntryDestination.route) },
                 navigateToIncomeUpdate = {
                     navController.navigate("${IncomeDetailsDestination.route}/${it}")
                 }, modifier , databaseHandler)
@@ -62,13 +64,19 @@ fun IncExpNavHost(
                 type = NavType.IntType
             })
         ) {
-            IncomeEditScreen(navigateBack = { navController.popBackStack() },
+            IncomeEditScreen(
+                navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() })
         }
         composable(route = ExpenseEntryDestination.route){
             ExpenseEntryScreen(navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() })
         }
+//        composable(
+//            route = ExpenseEntryDestination.route ) {
+//            navigateToExpenseEntry
+//            }
+//        )
         composable(
             route = ExpenseDetailsDestination.routeWithArgs,
             arguments = listOf(navArgument(ExpenseDetailsDestination.expenseIdArg) {

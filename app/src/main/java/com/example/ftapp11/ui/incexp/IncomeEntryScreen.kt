@@ -155,6 +155,19 @@ fun IncomeInputForm(
             enabled = enabled,
             singleLine = true
         )
+        OutlinedTextField(
+            value = incomeDetails.type,
+            onValueChange ={onValueChange(incomeDetails.copy(type = it)) },
+            label = { Text(stringResource(R.string.entry_type)) },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor =   MaterialTheme.colorScheme.secondaryContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+            )
         if (enabled) {
             Text(
                 text = stringResource(R.string.required_fields),

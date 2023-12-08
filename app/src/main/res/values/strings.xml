@@ -9,6 +9,7 @@
     <string name="income_name_req">Income Name*</string>
     <string name="income_amount_req">Income Amount*</string>
     <string name="income_date_req">Date Income was Received*</string>
+    <string name="entry_type">Entry Type*</string>
     <string name="expense_name_req">Expense Name*</string>
     <string name="expense_amount_req">Expense Amount*</string>
     <string name="expense_date_req">Date Expense was Received*</string>
@@ -50,7 +51,7 @@
     <string name="no_report_title">No Automatic Report</string>
     <string name="no_report_summary_on">Report will not be generated automatically</string>
     <string name="no_report_summary_off">Toggle automatic report off</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_settings">Settings Menu</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>

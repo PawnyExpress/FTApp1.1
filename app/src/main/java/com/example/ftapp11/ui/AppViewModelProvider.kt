@@ -19,7 +19,8 @@ object AppViewModelProvider {
         // Initializer for IncomeEditViewModel
         initializer {
             IncomeEditViewModel(
-                this.createSavedStateHandle()
+                this.createSavedStateHandle(),
+                FinancialTrackerApplication().container.incExpRepository
             )
         }
         // Initializer for IncomeEntryViewModel
@@ -33,13 +34,15 @@ object AppViewModelProvider {
         // Initializer for IncomeDetailsViewModel
         initializer {
             IncomeDetailsViewModel(
-                this.createSavedStateHandle()
+                this.createSavedStateHandle(),
+                FinancialTrackerApplication().container.incExpRepository
             )
         }
         // Initializer for ExpenseEditViewModel
         initializer {
             ExpenseEditViewModel(
-                this.createSavedStateHandle()
+                this.createSavedStateHandle(),
+                FinancialTrackerApplication().container.incExpRepository
             )
         }
         // Initializer for ExpenseEntryViewModel
@@ -52,13 +55,15 @@ object AppViewModelProvider {
         // Initializer for ExpenseDetailsViewModel
         initializer {
             ExpenseDetailsViewModel(
-                this.createSavedStateHandle()
+                this.createSavedStateHandle(),
+                FinancialTrackerApplication().container.incExpRepository
+
             )
         }
 
         // Initializer for HomeViewModel
         initializer {
-            HomeViewModel()
+            HomeViewModel(FinancialTrackerApplication().container.incExpRepository)
         }
     }
 }
@@ -67,5 +72,5 @@ object AppViewModelProvider {
  * Extension function to queries for [Application] object and returns an instance of
  * [FinancialTrackerApplication].
  */
-fun CreationExtras.financialtrackerApplication(): FinancialTrackerApplication =
+fun CreationExtras.financialTrackerApplication(): FinancialTrackerApplication =
     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as FinancialTrackerApplication)

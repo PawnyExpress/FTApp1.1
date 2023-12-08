@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface IncExpDao {
+
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(incExp: IncExp)
 

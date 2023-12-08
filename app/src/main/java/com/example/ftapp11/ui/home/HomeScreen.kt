@@ -23,6 +23,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -31,10 +33,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ftapp11.FinancialTrackerTopAppBar
-import com.example.ftapp11.R
-import com.example.ftapp11.data.DatabaseHandler
 import com.example.ftapp11.data.IncExp
+import com.example.ftapp11.R
+import com.example.ftapp11.ui.AppViewModelProvider
+import com.example.ftapp11.data.DatabaseHandler
 import com.example.ftapp11.ui.incexp.formattedAmount
 import com.example.ftapp11.ui.navigation.NavigationDestination
 import com.example.ftapp11.ui.theme.FinancialTrackerTheme
@@ -44,7 +48,6 @@ object HomeDestination : NavigationDestination {
     override val titleRes = R.string.app_name
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -52,8 +55,13 @@ fun HomeScreen(
     navigateToIncomeEntry: () -> Unit,
     navigateToIncomeUpdate: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    databaseHandler: DatabaseHandler
+    databaseHandler: DatabaseHandler,
+    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    //navigateToExpenseEntry: () -> Unit,
+   // navigateToExpenseUpdate: (Int) -> Unit,
+
 ) {
+    val homeUiState by viewModel.homeUiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
@@ -80,8 +88,8 @@ fun HomeScreen(
 
     ) { innerPadding ->
         HomeBody(
-            incExpList = listOf(),
-
+            incExpList = homeUiState.incExpList,
+            //incExpList = listOf(),
             onItemClick = navigateToIncomeUpdate,
             modifier = Modifier
                 .padding(innerPadding)
@@ -92,6 +100,7 @@ fun HomeScreen(
 
 
 }
+
 @Composable
 private fun HomeBody(
     incExpList: List<IncExp>, onItemClick: (Int) -> Unit, modifier: Modifier = Modifier, databaseHandler : DatabaseHandler
@@ -102,7 +111,6 @@ private fun HomeBody(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-
         if (incExpList.isEmpty()) {
             Text(
                 text = stringResource(R.string.no_item_description),
@@ -123,15 +131,12 @@ private fun HomeBody(
 private fun FinancesList(
     incExpList: List<IncExp>, onItemClick: (IncExp) -> Unit, modifier: Modifier = Modifier
 ) {
-
     LazyColumn(modifier = modifier) {
         items(items = incExpList, key = { it.id }) { incExp ->
             InventoryItem(incExp = incExp,
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.padding_small))
                     .clickable { onItemClick(incExp) })
-
-
         }
     }
 }
@@ -149,8 +154,7 @@ private fun InventoryItem(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = incExp.name,
@@ -161,39 +165,40 @@ private fun InventoryItem(
                     text = incExp.formattedAmount(),
                     style = MaterialTheme.typography.titleMedium
                 )
+                Spacer(Modifier.weight(1f))
+                Text(
+                    text = incExp.type,
+                    style = MaterialTheme.typography.titleSmall
+                )
             }
         }
     }
-
-
 }
 
+@Preview(showBackground = true)
+@Composable
+fun HomeBodyPreview() {
+    FinancialTrackerTheme {
+        HomeBody(listOf(
+            IncExp(1, "Work", 1000.0, "10/01/23"), IncExp(2, "Freelancing", 200.0, "10/01/23"), IncExp(3, "Work Supplies", 300.0, "10/01/23")
+        ), onItemClick = {})
+    }
+}
 
-
-//@Preview(showBackground = true)
-//@Composable
-//fun HomeBodyPreview() {
-//    FinancialTrackerTheme {
-//        HomeBody(listOf(
-//            IncExp(1, "Work", 1000.0, "10/01/23"), IncExp(2, "Freelancing", 200.0, "10/01/23"), IncExp(3, "Work Supplies", 300.0, "10/01/23")
-//        ), onItemClick = {})
-//    }
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun HomeBodyEmptyListPreview() {
-//    FinancialTrackerTheme {
-//        HomeBody(listOf(), onItemClick = {})
-//    }
-//}
+@Preview(showBackground = true)
+@Composable
+fun HomeBodyEmptyListPreview() {
+    FinancialTrackerTheme {
+        HomeBody(listOf(), onItemClick = {})
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
 fun IncomeItemPreview() {
     FinancialTrackerTheme {
         InventoryItem(
-            IncExp(1, "Work", 1000.0, "10/01/23"),
+            IncExp(1,"Income", "Work", 1000.0, "10/01/23"),
         )
     }
 }
