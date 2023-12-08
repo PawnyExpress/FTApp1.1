@@ -1,5 +1,6 @@
 package com.example.ftapp11.ui.incexp
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,10 +32,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ftapp11.FinancialTrackerTopAppBar
-import com.example.ftapp11.data.IncExp
-import com.example.ftapp11.ui.navigation.NavigationDestination
 import com.example.ftapp11.R
+import com.example.ftapp11.data.DatabaseHandler
+import com.example.ftapp11.data.IncExp
+import com.example.ftapp11.ui.AppViewModelProvider
+import com.example.ftapp11.ui.navigation.NavigationDestination
 
 object IncomeDetailsDestination : NavigationDestination {
     override val route = "income_details"
@@ -48,8 +52,12 @@ object IncomeDetailsDestination : NavigationDestination {
 fun IncomeDetailsScreen(
     navigateToEditIncome: (Int) -> Unit,
     navigateBack: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    databaseHandler : DatabaseHandler,
+    viewModel: IncomeDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    val data : IncExp = databaseHandler.getIncome()[viewModel.getIncomeId()];
+
     Scaffold(
         topBar = {
             FinancialTrackerTopAppBar(
@@ -74,9 +82,9 @@ fun IncomeDetailsScreen(
         IncomeDetailsBody(
             incomeDetailsUiState = IncomeDetailsUiState(),
             onDelete = { },
-            modifier = Modifier
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState())
+            modifier = Modifier                .padding(innerPadding)
+                .verticalScroll(rememberScrollState()),
+            data
         )
     }
 }
@@ -85,17 +93,21 @@ fun IncomeDetailsScreen(
 private fun IncomeDetailsBody(
     incomeDetailsUiState: IncomeDetailsUiState,
     onDelete: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    data : IncExp
 ) {
+
+
     Column(
         modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
         var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
-
+        Log.i("IncomeDetailsBody()", incomeDetailsUiState.incomeDetails.toIncExp().toString())
         IncomeDetails(
             incExp = incomeDetailsUiState.incomeDetails.toIncExp(),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            data
         )
         OutlinedButton(
             onClick = { deleteConfirmationRequired = true },
@@ -119,7 +131,7 @@ private fun IncomeDetailsBody(
 
 @Composable
 fun IncomeDetails(
-    incExp: IncExp, modifier: Modifier = Modifier
+    incExp: IncExp, modifier: Modifier = Modifier, data : IncExp
 ) {
     Card(
         modifier = modifier, colors = CardDefaults.cardColors(
@@ -133,9 +145,10 @@ fun IncomeDetails(
                 .padding(dimensionResource(id = R.dimen.padding_medium)),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
         ) {
+            Log.i("IncomeDetails()", incExp.toString())
             IncomeDetailsRow(
                 labelResID = R.string.income,
-                incomeDetail = incExp.name,
+                incomeDetail = data.name,
                 modifier = Modifier.padding(
                     horizontal = dimensionResource(
                         id = R.dimen
@@ -145,7 +158,7 @@ fun IncomeDetails(
             )
             IncomeDetailsRow(
                 labelResID = R.string.date,
-                incomeDetail = incExp.date,
+                incomeDetail = data.date,
                 modifier = Modifier.padding(
                     horizontal = dimensionResource(
                         id = R.dimen
@@ -155,7 +168,7 @@ fun IncomeDetails(
             )
             IncomeDetailsRow(
                 labelResID = R.string.amount,
-                incomeDetail = incExp.formattedAmount(),
+                incomeDetail = data.formattedAmount(),
                 modifier = Modifier.padding(
                     horizontal = dimensionResource(
                         id = R.dimen

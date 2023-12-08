@@ -7,8 +7,12 @@ import androidx.lifecycle.ViewModel
 class IncomeDetailsViewModel(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val incomeId : Int = checkNotNull(savedStateHandle[IncomeDetailsDestination.incomeIdArg])
+    private val incomeObject : Int = checkNotNull(savedStateHandle[IncomeDetailsDestination.incomeIdArg])
 
+    fun getIncomeId(): Int {
+
+        return incomeObject
+    }
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
     }

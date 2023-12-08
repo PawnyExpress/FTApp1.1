@@ -54,7 +54,7 @@ fun IncExpNavHost(
                 {
                     navController.navigate("${IncomeEditDestination.route}/$it")
                 },
-                navigateBack = { navController.navigateUp() })
+                navigateBack = { navController.navigateUp() }, modifier, databaseHandler)
         }
         composable(
             route = IncomeEditDestination.routeWithArgs,

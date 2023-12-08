@@ -211,12 +211,12 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         }
 
         incomeData = cleanEmptyCells(incomeData);
-        System.out.println("Stringified Income: " + stringifyData(incomeData, incomeData.length));
+        //System.out.println("Stringified Income: " + stringifyData(incomeData, incomeData.length));
 
         for(int i=0;i<incomeData.length;i++)
                 data.add(new IncExp(i, incomeData[i][0], Double.valueOf(incomeData[i][2]), incomeData[i][1]));
 
-        System.out.println(data);
+        //System.out.println(data);
 
 
         db.close();
@@ -225,14 +225,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         //data.add(new IncExp(name, amount, date));
 
         return data;
-    }
-
-    public <T> List<T> convertToList(T[][] twoDArray) {
-        List<T> list = new ArrayList<T>();
-        for (T[] array : twoDArray) {
-            list.addAll(Arrays.asList(array));
-        }
-        return list;
     }
 
     /**

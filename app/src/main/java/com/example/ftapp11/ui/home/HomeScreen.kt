@@ -130,6 +130,8 @@ private fun FinancesList(
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.padding_small))
                     .clickable { onItemClick(incExp) })
+
+
         }
     }
 }
@@ -147,7 +149,8 @@ private fun InventoryItem(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+
             ) {
                 Text(
                     text = incExp.name,
@@ -161,7 +164,11 @@ private fun InventoryItem(
             }
         }
     }
+
+
 }
+
+
 
 //@Preview(showBackground = true)
 //@Composable
