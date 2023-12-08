@@ -42,10 +42,10 @@ var currentData : IncExp? = null
 @Composable
 fun IncomeEntryScreen(
     data : IncExp,
+    databaseHandler : DatabaseHandler,
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
-    databaseHandler : DatabaseHandler,
     viewModel: IncomeExpenseEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     viewModel.sendContext(databaseHandler)

@@ -29,27 +29,20 @@ fun IncExpNavHost(
     navController: NavHostController,
     databaseHandler : DatabaseHandler,
     modifier: Modifier = Modifier,
-) {
+
+    ) {
     NavHost(
-        navController = navController,
-        startDestination = HomeDestination.route,
-        modifier = modifier
+        navController = navController, startDestination = HomeDestination.route, modifier = modifier,
     ) {
         composable(route = HomeDestination.route) {
-            HomeScreen(
-                navigateToIncomeEntry = { navController.navigate("${IncomeDetailsDestination.route}/${it}") },
+            HomeScreen(navigateToIncomeEntry = { navController.navigate(IncomeEntryDestination.route) },
                 navigateToIncomeUpdate = {
                     navController.navigate("${IncomeDetailsDestination.route}/${it}")
                 }, modifier , databaseHandler)
         }
-        composable(route = IncomeEntryDestination.routeWithArgs,
-            arguments = listOf(navArgument(IncomeEntryDestination.incomeIdArg){
-                type = NavType.IntType
-            })
-
-        ) {
-            IncomeEntryScreen( IncExp(1, "", "", 1.0 , ""), navigateBack = { navController.popBackStack() },
-                onNavigateUp = { navController.navigateUp()}, true , databaseHandler)
+        composable(route = IncomeEntryDestination.route) {
+            IncomeEntryScreen( IncExp(0, "", "", 1.0, ""), databaseHandler, navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp()})
         }
         composable(
             route = IncomeDetailsDestination.routeWithArgs,
@@ -60,7 +53,7 @@ fun IncExpNavHost(
             IncomeDetailsScreen(
                 navigateToEditIncome =
                 {
-                    navController.navigate("${IncomeEditDestination.route}/${it}")
+                    navController.navigate("${IncomeEditDestination.route}/$it")
                 },
                 navigateBack = { navController.navigateUp() }, modifier, databaseHandler)
         }
@@ -70,22 +63,13 @@ fun IncExpNavHost(
                 type = NavType.IntType
             })
         ) {
-            IncomeEditScreen(
-                databaseHandler,
-                navigateBack = { navController.popBackStack() },
-                onNavigateUp = { navController.navigateUp() }
-                )
-
+            IncomeEditScreen(databaseHandler, navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() })
         }
         composable(route = ExpenseEntryDestination.route){
             ExpenseEntryScreen(navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() })
         }
-//        composable(
-//            route = ExpenseEntryDestination.route ) {
-//            navigateToExpenseEntry
-//            }
-//        )
         composable(
             route = ExpenseDetailsDestination.routeWithArgs,
             arguments = listOf(navArgument(ExpenseDetailsDestination.expenseIdArg) {
