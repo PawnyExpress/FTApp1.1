@@ -242,8 +242,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
             data = new IncExp(Integer.valueOf(cursor.getString(0)),"Income", cursor.getString(1), Double.valueOf(cursor.getString(3)), cursor.getString(2));
             return data;
         } else {
-
-            return null;
+            System.out.println("Index: " + index);
+            return new IncExp(0, "", "Default", 1.0, "");
         }
 
     }

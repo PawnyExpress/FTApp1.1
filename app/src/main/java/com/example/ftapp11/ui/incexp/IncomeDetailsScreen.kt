@@ -47,7 +47,6 @@ object IncomeDetailsDestination : NavigationDestination {
     const val incomeIdArg = "incomeId"
     val routeWithArgs = "$route/{$incomeIdArg}"
 }
-var dbInt : Int = 100
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IncomeDetailsScreen(
@@ -72,7 +71,7 @@ fun IncomeDetailsScreen(
         floatingActionButton = {
             FloatingActionButton(
 //                onClick = { navigateToEditIncome(uiState.value.incomeDetails.id) },
-                onClick = { navigateToEditIncome(dbInt) }, /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+                onClick = { navigateToEditIncome(viewModel.getIncomeId()) }, /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
             ) {
