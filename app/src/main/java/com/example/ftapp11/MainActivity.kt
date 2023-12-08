@@ -25,7 +25,8 @@ class MainActivity : ComponentActivity() {
         setContent{
             FinancialTrackerTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
                 ) {
                     FinancialTrackerApp()
                 }
@@ -34,21 +35,21 @@ class MainActivity : ComponentActivity() {
     }
 
     
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        when(item.itemId) {
-            R.id.report_settings -> {
-                val intent = Intent(this,
-                    SettingsActivity::class.java)
-                startActivity(intent)
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.main, menu)
+//        return super.onCreateOptionsMenu(menu)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//
+//        when(item.itemId) {
+//            R.id.report_settings -> {
+//                val intent = Intent(this,
+//                    SettingsActivity::class.java)
+//                startActivity(intent)
+//            }
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
 
 }

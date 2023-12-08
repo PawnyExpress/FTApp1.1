@@ -37,16 +37,19 @@ fun IncExpNavHost(
                 navigateToIncomeEntry = { navController.navigate(IncomeEntryDestination.route) },
                 navigateToIncomeUpdate = {
                     navController.navigate("${IncomeDetailsDestination.route}/${it}")
-                },
-                navigateToExpenseEntry = {navController.navigate(ExpenseEntryDestination.route)},
-                navigateToExpenseUpdate =  {
-                    navController.navigate("${ExpenseDetailsDestination.route}/${it}")
                 }
             )
+//        },
+//                navigateToExpenseEntry = {navController.navigate(ExpenseEntryDestination.route)},
+//                navigateToExpenseUpdate =  {
+//                    navController.navigate("${ExpenseDetailsDestination.route}/${it}")
+//                }
+//            )
 
         }
         composable(route = IncomeEntryDestination.route) {
-            IncomeEntryScreen(navigateBack = { navController.popBackStack() },
+            IncomeEntryScreen(
+                navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() })
         }
         composable(
@@ -56,10 +59,7 @@ fun IncExpNavHost(
             })
         ) {
             IncomeDetailsScreen(
-                navigateToEditIncome =
-                {
-                    navController.navigate("${IncomeEditDestination.route}/$it")
-                },
+                navigateToEditIncome = { navController.navigate("${IncomeEditDestination.route}/$it") },
                 navigateBack = { navController.navigateUp() })
         }
         composable(
@@ -68,13 +68,20 @@ fun IncExpNavHost(
                 type = NavType.IntType
             })
         ) {
-            IncomeEditScreen(navigateBack = { navController.popBackStack() },
+            IncomeEditScreen(
+                navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() })
         }
         composable(route = ExpenseEntryDestination.route){
             ExpenseEntryScreen(navigateBack = { navController.popBackStack() },
-                onNavigateUp = { navController.navigateUp() })
+                onNavigateUp = { navController.navigateUp() }
+            )
         }
+//        composable(
+//            route = ExpenseEntryDestination.route ) {
+//            navigateToExpenseEntry
+//            }
+//        )
         composable(
             route = ExpenseDetailsDestination.routeWithArgs,
             arguments = listOf(navArgument(ExpenseDetailsDestination.expenseIdArg) {

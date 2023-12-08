@@ -18,7 +18,9 @@ abstract class IncExpDatabase : RoomDatabase() {
         fun getDatabase(context: Context): IncExpDatabase {
             return Instance ?: synchronized(this) {
                 Room.databaseBuilder(context, IncExpDatabase::class.java, "incExp_database")
-                    .build().also { Instance = it}
+                    .fallbackToDestructiveMigration()
+                    .build()
+                    .also { Instance = it}
             }
         }
     }

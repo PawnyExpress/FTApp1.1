@@ -32,7 +32,8 @@ object AppViewModelProvider {
         // Initializer for IncomeDetailsViewModel
         initializer {
             IncomeDetailsViewModel(
-                this.createSavedStateHandle()
+                this.createSavedStateHandle(),
+                FinancialTrackerApplication().container.incExpRepository
             )
         }
         // Initializer for ExpenseEditViewModel
@@ -51,13 +52,15 @@ object AppViewModelProvider {
         // Initializer for ExpenseDetailsViewModel
         initializer {
             ExpenseDetailsViewModel(
-                this.createSavedStateHandle()
+                this.createSavedStateHandle(),
+                FinancialTrackerApplication().container.incExpRepository
+
             )
         }
 
         // Initializer for HomeViewModel
         initializer {
-            HomeViewModel()
+            HomeViewModel(FinancialTrackerApplication().container.incExpRepository)
         }
     }
 }

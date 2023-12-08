@@ -23,6 +23,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -31,9 +33,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ftapp11.FinancialTrackerTopAppBar
 import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.R
+import com.example.ftapp11.ui.AppViewModelProvider
 import com.example.ftapp11.ui.incexp.formattedAmount
 import com.example.ftapp11.ui.navigation.NavigationDestination
 import com.example.ftapp11.ui.theme.FinancialTrackerTheme
@@ -50,10 +54,12 @@ fun HomeScreen(
     navigateToIncomeEntry: () -> Unit,
     navigateToIncomeUpdate: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    navigateToExpenseEntry: () -> Unit,
-    navigateToExpenseUpdate: (Int) -> Unit,
+    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    //navigateToExpenseEntry: () -> Unit,
+   // navigateToExpenseUpdate: (Int) -> Unit,
 
 ) {
+    val homeUiState by viewModel.homeUiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
@@ -80,7 +86,8 @@ fun HomeScreen(
 
     ) { innerPadding ->
         HomeBody(
-            incExpList = listOf(),
+            incExpList = homeUiState.incExpList,
+            //incExpList = listOf(),
             onItemClick = navigateToIncomeUpdate,
             modifier = Modifier
                 .padding(innerPadding)

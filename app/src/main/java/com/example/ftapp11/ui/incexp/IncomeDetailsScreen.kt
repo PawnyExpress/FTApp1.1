@@ -23,18 +23,23 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ftapp11.FinancialTrackerTopAppBar
 import com.example.ftapp11.data.IncExp
 import com.example.ftapp11.ui.navigation.NavigationDestination
 import com.example.ftapp11.R
+import com.example.ftapp11.ui.AppViewModelProvider
+import kotlinx.coroutines.launch
 
 object IncomeDetailsDestination : NavigationDestination {
     override val route = "income_details"
@@ -48,8 +53,11 @@ object IncomeDetailsDestination : NavigationDestination {
 fun IncomeDetailsScreen(
     navigateToEditIncome: (Int) -> Unit,
     navigateBack: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: IncomeDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    val uiState = viewModel.uiState.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             FinancialTrackerTopAppBar(
@@ -60,7 +68,7 @@ fun IncomeDetailsScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navigateToEditIncome(0) },
+                onClick = { navigateToEditIncome(uiState.value.incomeDetails.id) },
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
             ) {
@@ -72,8 +80,14 @@ fun IncomeDetailsScreen(
         }, modifier = modifier
     ) { innerPadding ->
         IncomeDetailsBody(
-            incomeDetailsUiState = IncomeDetailsUiState(),
-            onDelete = { },
+            incomeDetailsUiState = uiState.value,
+            //incomeDetailsUiState = IncomeDetailsUiState(),
+            onDelete = {
+                coroutineScope.launch {
+                    viewModel.deleteIncome()
+                    navigateBack()
+                }
+            },
             modifier = Modifier
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
