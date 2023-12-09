@@ -1,7 +1,7 @@
 package com.example.ftapp11.ui
 
 import android.app.Application
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
@@ -20,7 +20,7 @@ object AppViewModelProvider {
         initializer {
             IncomeEditViewModel(
                 this.createSavedStateHandle(),
-                FinancialTrackerApplication().container.incExpRepository
+                financialTrackerApplication().container.incExpRepository
             )
         }
         // Initializer for IncomeEntryViewModel
@@ -33,14 +33,14 @@ object AppViewModelProvider {
         initializer {
             IncomeDetailsViewModel(
                 this.createSavedStateHandle(),
-                FinancialTrackerApplication().container.incExpRepository
+                financialTrackerApplication().container.incExpRepository
             )
         }
         // Initializer for ExpenseEditViewModel
         initializer {
             ExpenseEditViewModel(
                 this.createSavedStateHandle(),
-                FinancialTrackerApplication().container.incExpRepository
+                financialTrackerApplication().container.incExpRepository
             )
         }
         // Initializer for ExpenseEntryViewModel
@@ -53,14 +53,14 @@ object AppViewModelProvider {
         initializer {
             ExpenseDetailsViewModel(
                 this.createSavedStateHandle(),
-                FinancialTrackerApplication().container.incExpRepository
+                financialTrackerApplication().container.incExpRepository
 
             )
         }
 
         // Initializer for HomeViewModel
         initializer {
-            HomeViewModel(FinancialTrackerApplication().container.incExpRepository)
+            HomeViewModel(financialTrackerApplication().container.incExpRepository)
         }
     }
 }
@@ -70,4 +70,4 @@ object AppViewModelProvider {
  * [FinancialTrackerApplication].
  */
 fun CreationExtras.financialTrackerApplication(): FinancialTrackerApplication =
-    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as FinancialTrackerApplication)
+    (this[AndroidViewModelFactory.APPLICATION_KEY] as FinancialTrackerApplication)

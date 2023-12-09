@@ -2,18 +2,14 @@ package com.example.ftapp11
 
 
 
-import android.content.Intent
+
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.findNavController
 import com.example.ftapp11.ui.theme.FinancialTrackerTheme
 
 
@@ -33,23 +29,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-    
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.main, menu)
-//        return super.onCreateOptionsMenu(menu)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//
-//        when(item.itemId) {
-//            R.id.report_settings -> {
-//                val intent = Intent(this,
-//                    SettingsActivity::class.java)
-//                startActivity(intent)
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
-
 }

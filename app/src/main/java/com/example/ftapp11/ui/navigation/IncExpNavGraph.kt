@@ -35,17 +35,10 @@ fun IncExpNavHost(
         composable(route = HomeDestination.route) {
             HomeScreen(
                 navigateToIncomeEntry = { navController.navigate(IncomeEntryDestination.route) },
-                navigateToIncomeUpdate = {
-                    navController.navigate("${IncomeDetailsDestination.route}/${it}")
-                }
+                navigateToIncomeUpdate = { navController.navigate("${IncomeDetailsDestination.route}/${it}") },
+                navigateToExpenseEntry =  {navController.navigate(ExpenseEntryDestination.route)},
+                navigateToExpenseUpdate = { navController.navigate("${ExpenseDetailsDestination.route}/${it}") },
             )
-//        },
-//                navigateToExpenseEntry = {navController.navigate(ExpenseEntryDestination.route)},
-//                navigateToExpenseUpdate =  {
-//                    navController.navigate("${ExpenseDetailsDestination.route}/${it}")
-//                }
-//            )
-
         }
         composable(route = IncomeEntryDestination.route) {
             IncomeEntryScreen(
@@ -77,11 +70,6 @@ fun IncExpNavHost(
                 onNavigateUp = { navController.navigateUp() }
             )
         }
-//        composable(
-//            route = ExpenseEntryDestination.route ) {
-//            navigateToExpenseEntry
-//            }
-//        )
         composable(
             route = ExpenseDetailsDestination.routeWithArgs,
             arguments = listOf(navArgument(ExpenseDetailsDestination.expenseIdArg) {

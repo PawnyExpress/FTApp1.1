@@ -32,8 +32,7 @@ class IncomeExpenseEntryViewModel (private val incExpRepository: IncExpRepositor
     suspend fun saveIncExp() {
         if (validateIncomeInput()) {
             incExpRepository.insertIncome(incomeUiState.incomeDetails.toIncExp())
-        }
-        if (validateExpenseInput()) {
+        } else {
             incExpRepository.insertExpense(expenseUiState.expenseDetails.toIncExp())
         }
     }

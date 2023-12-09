@@ -25,6 +25,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -54,9 +55,9 @@ fun HomeScreen(
     navigateToIncomeEntry: () -> Unit,
     navigateToIncomeUpdate: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    //navigateToExpenseEntry: () -> Unit,
-   // navigateToExpenseUpdate: (Int) -> Unit,
+    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    navigateToExpenseEntry: () -> Unit,
+    navigateToExpenseUpdate: (Int) -> Unit,
 
 ) {
     val homeUiState by viewModel.homeUiState.collectAsState()
@@ -82,9 +83,11 @@ fun HomeScreen(
                     contentDescription = stringResource(R.string.income_entry_title)
                 )
             }
+
         },
 
-    ) { innerPadding ->
+    )
+    { innerPadding ->
         HomeBody(
             incExpList = homeUiState.incExpList,
             //incExpList = listOf(),
@@ -92,6 +95,40 @@ fun HomeScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
+        )
+    }
+    Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            FinancialTrackerTopAppBar(
+                title = stringResource(HomeDestination.titleRes),
+                canNavigateBack = false,
+                scrollBehavior = scrollBehavior
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = navigateToExpenseEntry,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.income_entry_title)
+                )
+            }
+
+        },
+
+        )
+    { innerPadding ->
+        HomeBody(
+            incExpList = homeUiState.incExpList,
+            //incExpList = listOf(),
+            onItemClick = navigateToExpenseUpdate,
+            modifier = Modifier
+                .padding(innerPadding)
+
         )
     }
 }
@@ -125,8 +162,8 @@ private fun FinancesList(
     incExpList: List<IncExp>, onItemClick: (IncExp) -> Unit, modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
-        items(items = incExpList, key = { it.id }) { incExp ->
-            InventoryItem(incExp = incExp,
+        items(items = incExpList, key =  { it.id }) {incExp ->
+            IncExpItem(incExp = incExp,
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.padding_small))
                     .clickable { onItemClick(incExp) })
@@ -135,7 +172,7 @@ private fun FinancesList(
 }
 
 @Composable
-private fun InventoryItem(
+private fun IncExpItem(
     incExp: IncExp, modifier: Modifier = Modifier
 ) {
     Card(
@@ -190,7 +227,7 @@ fun HomeBodyEmptyListPreview() {
 @Composable
 fun IncomeItemPreview() {
     FinancialTrackerTheme {
-        InventoryItem(
+        IncExpItem(
             IncExp(1,"Income", "Work", 1000.0, "10/01/23"),
         )
     }

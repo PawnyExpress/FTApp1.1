@@ -22,7 +22,7 @@
 ##
 ##############################################################################
 
-# Attempt to set APP_HOME
+ Attempt to set APP_HOME
 # Resolve links: $0 may be a link
 PRG="$0"
 # Need this for relative symlinks.
@@ -30,7 +30,7 @@ while [ -h "$PRG" ] ; do
     ls=`ls -ld "$PRG"`
     link=`expr "$ls" : '.*-> \(.*\)$'`
     if expr "$link" : '/.*' > /dev/null; then
-        PRG="$link"
+        PRG="$link";
     else
         PRG=`dirname "$PRG"`"/$link"
     fi
@@ -68,7 +68,7 @@ nonstop=false
 case "`uname`" in
   CYGWIN* )
     cygwin=true
-    ;;
+    ;
   Darwin* )
     darwin=true
     ;;

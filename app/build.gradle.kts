@@ -9,7 +9,6 @@ plugins {
 
 
 android {
-    namespace = "com.example.ftapp11"
     compileSdk = 33
 
     defaultConfig {
@@ -24,8 +23,6 @@ android {
             useSupportLibrary = true
         }
     }
-
-
 
     buildTypes {
         release {
@@ -69,7 +66,6 @@ dependencies {
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
-    //implementation("androidx.compose.ui:ui-viewbinding:1.5.4")
     implementation("androidx.navigation:navigation-compose:2.6.0")
 
     implementation("androidx.preference:preference-ktx:1.2.0")
@@ -82,6 +78,7 @@ dependencies {
 
     //Room
     implementation("androidx.room:room-runtime:${rootProject.extra["room_version"]}")
+    implementation("androidx.core:core-ktx:1.10.1")
     ksp("androidx.room:room-compiler:${rootProject.extra["room_version"]}")
     implementation("androidx.room:room-ktx:${rootProject.extra["room_version"]}")
 

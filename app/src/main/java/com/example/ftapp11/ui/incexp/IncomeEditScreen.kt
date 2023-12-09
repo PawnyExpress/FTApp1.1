@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -13,6 +14,8 @@ import com.example.ftapp11.R
 import com.example.ftapp11.ui.AppViewModelProvider
 import com.example.ftapp11.ui.navigation.NavigationDestination
 import com.example.ftapp11.ui.theme.FinancialTrackerTheme
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 object IncomeEditDestination : NavigationDestination {
     override val route = "income_edit"
@@ -30,6 +33,7 @@ fun IncomeEditScreen(
     modifier: Modifier = Modifier,
     viewModel: IncomeEditViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    val coroutineScope = rememberCoroutineScope()
     Scaffold (
         topBar = {
             FinancialTrackerTopAppBar(
@@ -42,8 +46,13 @@ fun IncomeEditScreen(
     ) { innerPadding ->
         IncomeEntryBody(
         incomeUiState = viewModel.incomeUiState,
-        onIncomeValueChange = { },
-        onSaveClick = { },
+        onIncomeValueChange = viewModel::updateUiState,
+        onSaveClick = {
+                      coroutineScope.launch {
+                          viewModel.updateIncome()
+                          navigateBack()
+                      }
+        },
         modifier = Modifier.padding(innerPadding)
         )
 
